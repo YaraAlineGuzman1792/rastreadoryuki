@@ -4,392 +4,771 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RastreaPet 🐾</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-  :root {
-    --bg: #0d0f14;
-    --card: #161920;
-    --border: #252830;
-    --text: #e8eaf0;
-    --muted: #6b7280;
-    --accent: #f97316;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  body::before {
-    content: '';
-    position: fixed;
-    top: -200px; left: 50%;
-    transform: translateX(-50%);
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 70%);
-    pointer-events: none; z-index: 0;
-  }
-  .container { max-width: 480px; margin: 0 auto; padding: 24px 16px; position: relative; z-index: 1; }
+:root {
+  --bg: #0b0d11;
+  --card: #13161d;
+  --card2: #1a1e27;
+  --border: #232730;
+  --text: #e8eaf2;
+  --muted: #5a6272;
+  --accent: #f97316;
+  --accent2: #fbbf24;
+  --green: #22c55e;
+  --red: #ef4444;
+  --blue: #3b82f6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
 
-  header { text-align: center; margin-bottom: 24px; }
-  .logo {
-    font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; letter-spacing: -1px;
-    background: linear-gradient(135deg, #f97316, #fbbf24);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  }
-  .subtitle { color: var(--muted); font-size: 0.82rem; margin-top: 4px; }
+/* ── SCREENS ── */
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
 
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 14px; }
-  .card-title { font-family: 'Syne', sans-serif; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 14px; }
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(11,13,17,.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;
+}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;
+  background:linear-gradient(135deg,#f97316,#fbbf24);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-back{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem;padding:4px 8px}
+.nav-back:hover{color:var(--text)}
 
-  .info-badge {
-    background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.25);
-    border-radius: 10px; padding: 10px 14px; font-size: 0.78rem; color: #a5b4fc;
-    margin-bottom: 14px; line-height: 1.6;
-  }
-  .info-badge strong { color: #c7d2fe; }
+/* ── HOME ── */
+.home-hero{
+  padding:40px 24px 32px;
+  background:linear-gradient(180deg,rgba(249,115,22,.07) 0%,transparent 100%);
+  text-align:center;
+}
+.home-hero h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;line-height:1.2;margin-bottom:8px}
+.home-hero p{color:var(--muted);font-size:.88rem;line-height:1.6;max-width:300px;margin:0 auto}
 
-  .mac-row { display: flex; gap: 8px; margin-bottom: 14px; }
-  .mac-input {
-    flex: 1; padding: 10px 14px; background: #0d0f14; border: 1px solid var(--border);
-    border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem; outline: none; letter-spacing: 1px;
-  }
-  .mac-input:focus { border-color: var(--accent); }
+.pet-card{
+  margin:0 20px 20px;
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  padding:20px;display:flex;align-items:center;gap:16px;
+}
+.pet-avatar{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,#f97316,#ea580c);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;flex-shrink:0;position:relative;overflow:hidden;
+}
+.pet-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.pet-info h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700}
+.pet-info p{color:var(--muted);font-size:.78rem;margin-top:3px;line-height:1.4}
+.pet-edit{margin-left:auto;background:none;border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--muted);font-size:.75rem;cursor:pointer}
+.pet-edit:hover{border-color:var(--accent);color:var(--accent)}
 
-  .device-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); flex-shrink: 0; transition: all 0.5s; }
-  .dot.on { background: #22c55e; box-shadow: 0 0 10px rgba(34,197,94,.6); animation: pdot 2s infinite; }
-  .dot.lost { background: #ef4444; box-shadow: 0 0 10px rgba(239,68,68,.6); }
-  @keyframes pdot { 0%,100%{box-shadow:0 0 6px rgba(34,197,94,.5)} 50%{box-shadow:0 0 18px rgba(34,197,94,.9)} }
-  .device-name { font-weight: 500; font-size: 0.92rem; }
-  .device-sub { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.section-label{font-family:'Syne',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:0 20px;margin-bottom:10px}
 
-  .btn-scan {
-    width: 100%; padding: 15px; background: linear-gradient(135deg, #f97316, #ea580c);
-    border: none; border-radius: 14px; color: white;
-    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem;
-    cursor: pointer; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-  }
-  .btn-scan:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(249,115,22,.35); }
-  .btn-scan:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
-  .btn-stop {
-    width: 100%; padding: 11px; background: transparent; border: 1px solid var(--border);
-    border-radius: 12px; color: var(--muted); font-size: 0.85rem; cursor: pointer; margin-top: 8px;
-    transition: all 0.2s; font-family: 'DM Sans', sans-serif;
-  }
-  .btn-stop:hover { border-color: #ef4444; color: #ef4444; }
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 20px;margin-bottom:20px}
+.mode-card{
+  background:var(--card);border:1px solid var(--border);border-radius:18px;
+  padding:20px 16px;cursor:pointer;transition:all .2s;text-align:left;
+  position:relative;overflow:hidden;
+}
+.mode-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,115,22,.15)}
+.mode-card.full{grid-column:1/-1}
+.mode-card.masiva{background:linear-gradient(135deg,rgba(249,115,22,.12),rgba(239,68,68,.08));border-color:rgba(249,115,22,.3)}
+.mode-icon{font-size:1.8rem;margin-bottom:10px;display:block}
+.mode-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;margin-bottom:4px}
+.mode-desc{color:var(--muted);font-size:.75rem;line-height:1.4}
+.mode-badge{
+  position:absolute;top:12px;right:12px;
+  background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.3);
+  color:var(--accent);font-size:.6rem;font-weight:700;letter-spacing:.5px;
+  padding:2px 7px;border-radius:99px;
+}
 
-  /* SIGNAL */
-  .signal-wrap { display: flex; flex-direction: column; align-items: center; padding: 8px 0; }
-  .ring-container { position: relative; width: 176px; height: 176px; margin: 0 auto 16px; }
-  .ring-container svg { transform: rotate(-90deg); width: 176px; height: 176px; }
-  #ring-bg { stroke: #252830; }
-  #ring-fill {
-    stroke: #f97316; stroke-dasharray: 490; stroke-dashoffset: 490;
-    transition: stroke-dashoffset 0.8s ease, stroke 0.8s ease; stroke-linecap: round;
-  }
-  .ring-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
-  .s-emoji { font-size: 2.6rem; line-height: 1; display: block; }
-  .s-label { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; margin-top: 4px; transition: color 0.5s; }
-  .s-dbm { font-size: 0.7rem; color: var(--muted); margin-top: 3px; }
+/* ── PET PROFILE SETUP ── */
+.form-container{padding:24px 20px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+.field input,.field textarea,.field select{
+  width:100%;padding:12px 14px;
+  background:#0b0d11;border:1px solid var(--border);border-radius:12px;
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;
+  transition:border-color .2s;
+}
+.field input:focus,.field textarea:focus{border-color:var(--accent)}
+.field textarea{resize:none;height:80px;line-height:1.5}
+.photo-upload{
+  width:100%;height:100px;border:2px dashed var(--border);border-radius:14px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;cursor:pointer;font-size:.82rem;color:var(--muted);transition:all .2s;
+  position:relative;overflow:hidden;
+}
+.photo-upload:hover{border-color:var(--accent);color:var(--accent)}
+.photo-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+.photo-preview{width:100%;height:100%;object-fit:cover;border-radius:12px;position:absolute}
 
-  .rssi-history { display: flex; align-items: flex-end; gap: 3px; height: 36px; width: 100%; margin-bottom: 16px; }
-  .rssi-bar { flex: 1; background: var(--border); border-radius: 3px 3px 0 0; transition: height 0.5s, background 0.5s; }
+/* ── BUTTONS ── */
+.btn{
+  width:100%;padding:15px;border:none;border-radius:14px;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.btn-primary{background:linear-gradient(135deg,#f97316,#ea580c);color:white}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,115,22,.35)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.btn-outline:hover{border-color:var(--red);color:var(--red)}
+.btn-green{background:linear-gradient(135deg,#22c55e,#16a34a);color:white}
+.btn-green:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(34,197,94,.3)}
+.btn-sm{padding:10px;font-size:.82rem;border-radius:11px}
 
-  .temp-wrap { width: 100%; margin-bottom: 12px; }
-  .temp-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); margin-bottom: 5px; }
-  .temp-bg {
-    height: 8px; border-radius: 99px;
-    background: linear-gradient(to right, #3b82f6, #06b6d4, #22c55e, #fbbf24, #f97316, #ef4444);
-    position: relative;
-  }
-  .temp-cursor {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    width: 18px; height: 18px; border-radius: 50%;
-    background: white; border: 3px solid #f97316;
-    box-shadow: 0 0 12px rgba(249,115,22,.6);
-    transition: left 0.8s ease, border-color 0.5s; left: 0%; margin-left: -9px;
-  }
-  .advice { text-align: center; font-size: 0.85rem; min-height: 20px; transition: color 0.5s; line-height: 1.5; color: var(--muted); }
+/* ── SEARCH SCREEN ── */
+.search-container{padding:20px}
 
-  #map { height: 230px; border-radius: 14px; overflow: hidden; }
-  .map-ph {
-    height: 230px; border-radius: 14px; border: 1px dashed var(--border);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 0.82rem; gap: 8px;
-  }
+/* 10-second hint */
+.hint-box{
+  background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);
+  border-radius:14px;padding:14px 16px;margin-bottom:16px;
+  font-size:.82rem;color:#fde68a;line-height:1.5;
+}
+.hint-box strong{color:#fbbf24}
 
-  .log-list { list-style: none; max-height: 130px; overflow-y: auto; scrollbar-width: none; }
-  .log-list::-webkit-scrollbar { display: none; }
-  .log-item {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 0.78rem;
-    animation: fi 0.3s ease;
-  }
-  .log-item:last-child { border-bottom: none; }
-  .log-msg { color: var(--text); flex: 1; line-height: 1.4; }
-  .log-time { color: var(--muted); font-size: 0.68rem; flex-shrink: 0; margin-left: 8px; }
-  @keyframes fi { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:none} }
-  .log-empty { color: var(--muted); font-size: 0.8rem; text-align: center; padding: 14px 0; }
+/* Countdown */
+.countdown-wrap{
+  display:none;background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:16px;margin-bottom:16px;text-align:center;
+}
+.countdown-num{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--accent);line-height:1}
+.countdown-label{font-size:.75rem;color:var(--muted);margin-top:4px}
 
-  .toast {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    padding: 13px 22px; border-radius: 14px;
-    font-weight: 600; font-size: 0.88rem; z-index: 999;
-    transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
-    white-space: nowrap; display: flex; align-items: center; gap: 8px; color: white;
-  }
-  .toast.warn { background: #ef4444; box-shadow: 0 8px 28px rgba(239,68,68,.4); }
-  .toast.ok { background: #22c55e; box-shadow: 0 8px 28px rgba(34,197,94,.4); }
-  .toast.show { transform: translateX(-50%) translateY(0); }
+/* Signal */
+.signal-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:14px}
+.signal-card-title{font-family:'Syne',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
 
-  @keyframes spin { to{transform:rotate(360deg)} }
-  .spinning { display: inline-block; animation: spin 1s linear infinite; }
+.ring-wrap{position:relative;width:160px;height:160px;margin:0 auto 16px}
+.ring-wrap svg{transform:rotate(-90deg);width:160px;height:160px}
+#ring-bg2{stroke:#232730}
+#ring-fill2{stroke:#f97316;stroke-dasharray:440;stroke-dashoffset:440;transition:stroke-dashoffset .8s,stroke .8s;stroke-linecap:round}
+.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.s-emoji{font-size:2.4rem;line-height:1;display:block}
+.s-label{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;margin-top:3px;transition:color .5s}
+.s-dbm{font-size:.68rem;color:var(--muted);margin-top:2px}
 
-  /* LED EXPLAINER */
-  .led-row { display: flex; gap: 12px; margin-top: 0; }
-  .led-item { flex: 1; background: #0d0f14; border: 1px solid var(--border); border-radius: 10px; padding: 10px; text-align: center; }
-  .led-dot { width: 12px; height: 12px; border-radius: 50%; margin: 0 auto 6px; }
-  .led-dot.blink { animation: blink 1s step-start infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-  .led-label { font-size: 0.7rem; color: var(--muted); line-height: 1.4; }
+.hist-bars{display:flex;align-items:flex-end;gap:3px;height:34px;margin-bottom:14px}
+.hbar{flex:1;background:var(--border);border-radius:3px 3px 0 0;transition:height .4s,background .4s;min-height:4px}
+
+.temp-bg{height:8px;border-radius:99px;background:linear-gradient(to right,#3b82f6,#06b6d4,#22c55e,#fbbf24,#f97316,#ef4444);position:relative;margin-bottom:12px}
+.temp-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:5px}
+.temp-cur{position:absolute;top:50%;transform:translateY(-50%);width:17px;height:17px;border-radius:50%;background:white;border:3px solid #f97316;box-shadow:0 0 10px rgba(249,115,22,.6);transition:left .8s,border-color .5s;left:0%;margin-left:-8px}
+.advice-txt{text-align:center;font-size:.84rem;line-height:1.5;color:var(--muted);transition:color .5s;min-height:18px}
+
+/* Device status */
+.dev-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:all .4s}
+.dot.on{background:var(--green);box-shadow:0 0 10px rgba(34,197,94,.6);animation:pdot 2s infinite}
+.dot.lost{background:var(--red);box-shadow:0 0 10px rgba(239,68,68,.6)}
+@keyframes pdot{0%,100%{box-shadow:0 0 6px rgba(34,197,94,.4)}50%{box-shadow:0 0 18px rgba(34,197,94,.8)}}
+.dev-name{font-weight:500;font-size:.9rem}
+.dev-sub{font-size:.73rem;color:var(--muted);margin-top:2px}
+
+/* Map */
+#map{height:220px;border-radius:14px;overflow:hidden}
+.map-ph{height:180px;border-radius:14px;border:1px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);font-size:.8rem;gap:6px;margin-bottom:14px}
+
+/* Log */
+.log-list{list-style:none;max-height:120px;overflow-y:auto;scrollbar-width:none}
+.log-list::-webkit-scrollbar{display:none}
+.log-item{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--border);font-size:.76rem;animation:fi .3s ease}
+.log-item:last-child{border-bottom:none}
+.log-msg{flex:1;line-height:1.4;color:var(--text)}
+.log-time{color:var(--muted);font-size:.66rem;flex-shrink:0;margin-left:8px}
+@keyframes fi{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.log-mt{color:var(--muted);font-size:.78rem;text-align:center;padding:12px 0}
+
+/* ── LINK SHARE SCREEN ── */
+.link-container{padding:24px 20px}
+.share-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:14px;text-align:center}
+.share-card .big-icon{font-size:3rem;margin-bottom:12px}
+.share-card h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:6px}
+.share-card p{color:var(--muted);font-size:.8rem;line-height:1.5}
+.link-box{background:#0b0d11;border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:.75rem;color:var(--muted);word-break:break-all;margin:14px 0;text-align:left;font-family:monospace;line-height:1.5}
+.share-btns{display:grid;gap:10px}
+
+/* ── ALERT (MASIVA) ── */
+.alert-card{
+  margin:20px;background:var(--card);
+  border:1px solid rgba(239,68,68,.3);border-radius:20px;padding:20px;
+}
+.alert-card.active{background:rgba(239,68,68,.06);animation:pulse-card 2s infinite}
+@keyframes pulse-card{0%,100%{box-shadow:0 0 0 rgba(239,68,68,0)}50%{box-shadow:0 0 24px rgba(239,68,68,.2)}}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(100px);
+  padding:12px 20px;border-radius:13px;
+  font-weight:600;font-size:.85rem;z-index:999;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap;display:flex;align-items:center;gap:8px;color:white;
+  max-width:calc(100vw - 48px);white-space:normal;text-align:center;
+}
+.toast.warn{background:#ef4444;box-shadow:0 6px 24px rgba(239,68,68,.4)}
+.toast.ok{background:#22c55e;box-shadow:0 6px 24px rgba(34,197,94,.4)}
+.toast.info{background:#3b82f6;box-shadow:0 6px 24px rgba(59,130,246,.4)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinning{display:inline-block;animation:spin 1s linear infinite}
 </style>
 </head>
 <body>
-<div class="container">
 
-  <header>
-    <div class="logo">RastreaPet 🐾</div>
-    <div class="subtitle">Rastreador Bluetooth · Héroes de 4 Patas</div>
-  </header>
-
-  <!-- DEVICE CARD -->
-  <div class="card">
-    <div class="card-title">Dispositivo</div>
-
-    <div class="info-badge">
-      📟 MAC leído del QR: <strong>BC:57:29:03:ED:71</strong> · Serie: <strong>2736</strong><br>
-      Ya está cargado. Cambia el valor si tienes otro dispositivo.
-    </div>
-
-    <div class="mac-row">
-      <input class="mac-input" id="mac-input" type="text"
-        placeholder="MAC del dispositivo"
-        value="BC:57:29:03:ED:71" maxlength="17"/>
-    </div>
-
-    <div class="device-row">
-      <div class="dot" id="dot"></div>
-      <div>
-        <div class="device-name" id="device-name">Sin dispositivo</div>
-        <div class="device-sub" id="device-sub">Presiona buscar para iniciar</div>
-      </div>
-    </div>
-
-    <button class="btn-scan" id="btn-scan" onclick="startScan()">
-      <span>📡</span> Buscar dispositivo
-    </button>
-    <button class="btn-stop" id="btn-stop" onclick="stopScan()" style="display:none;">
-      ⏹ Detener rastreo
-    </button>
+<!-- ══════════════ SCREEN: HOME ══════════════ -->
+<div class="screen active" id="screen-home">
+  <div class="nav">
+    <div class="nav-logo">RastreaPet 🐾</div>
+    <button class="pet-edit" onclick="showScreen('screen-profile')">✏️ Editar</button>
   </div>
 
-  <!-- LED GUIDE -->
-  <div class="card">
-    <div class="card-title">¿Qué significa la luz LED?</div>
-    <div class="led-row">
-      <div class="led-item">
-        <div class="led-dot blink" style="background:#ef4444"></div>
-        <div class="led-label">🔴 <strong>Parpadea</strong><br>Normal — emitiendo señal Bluetooth</div>
-      </div>
-      <div class="led-item">
-        <div class="led-dot" style="background:#ef4444"></div>
-        <div class="led-label">🔴 <strong>Fija</strong><br>Cargando o en modo emparejamiento</div>
-      </div>
-      <div class="led-item">
-        <div class="led-dot" style="background:#6b7280"></div>
-        <div class="led-label">⚫ <strong>Apagada</strong><br>Sin batería o apagado</div>
-      </div>
+  <div class="home-hero">
+    <h1>Encuentra a tu<br>mascota 🐾</h1>
+    <p>El mismo sistema de Héroes de 4 Patas, ahora como app web</p>
+  </div>
+
+  <!-- Pet card -->
+  <div class="pet-card" id="home-pet-card">
+    <div class="pet-avatar" id="home-avatar">🐶</div>
+    <div class="pet-info">
+      <h2 id="home-pet-name">Mi Mascota</h2>
+      <p id="home-pet-desc">Configura el perfil de tu mascota →</p>
     </div>
   </div>
 
-  <!-- SIGNAL CARD -->
-  <div class="card">
-    <div class="card-title">Señal — Caliente / Frío</div>
-    <div class="signal-wrap">
-      <div class="ring-container">
-        <svg viewBox="0 0 176 176" xmlns="http://www.w3.org/2000/svg">
-          <circle id="ring-bg" cx="88" cy="88" r="78" fill="none" stroke-width="10"/>
-          <circle id="ring-fill" cx="88" cy="88" r="78" fill="none" stroke-width="10"/>
-        </svg>
-        <div class="ring-center">
-          <span class="s-emoji" id="s-emoji">❓</span>
-          <div class="s-label" id="s-label">--</div>
-          <div class="s-dbm" id="s-dbm">esperando señal</div>
-        </div>
-      </div>
+  <div class="section-label">Modos de búsqueda</div>
 
-      <div class="rssi-history" id="rssi-history"></div>
-
-      <div class="temp-wrap">
-        <div class="temp-labels"><span>🧊 Muy lejos</span><span>🔥 Muy cerca</span></div>
-        <div class="temp-bg"><div class="temp-cursor" id="temp-cursor"></div></div>
-      </div>
-
-      <div class="advice" id="advice">Conecta tu dispositivo para rastrear</div>
+  <div class="mode-grid">
+    <div class="mode-card" onclick="showScreen('screen-individual')">
+      <span class="mode-icon">🔍</span>
+      <div class="mode-title">Individual</div>
+      <div class="mode-desc">Tú buscas solo. El teléfono escanea el beacon de tu mascota.</div>
+    </div>
+    <div class="mode-card" onclick="showScreen('screen-comunitaria')">
+      <span class="mode-icon">👥</span>
+      <div class="mode-title">Comunitaria</div>
+      <div class="mode-desc">Comparte un link con familia y amigos para que te ayuden.</div>
+      <div class="mode-badge">LINK</div>
+    </div>
+    <div class="mode-card full masiva" onclick="showScreen('screen-masiva')">
+      <span class="mode-icon">🚨</span>
+      <div class="mode-title">Masiva — Alerta de emergencia</div>
+      <div class="mode-desc">Activa una alerta y compártela a todos tus contactos a la vez. Para cuando tu mascota lleva tiempo perdida.</div>
     </div>
   </div>
-
-  <!-- MAP CARD -->
-  <div class="card">
-    <div class="card-title">Última ubicación detectada</div>
-    <div id="map-container">
-      <div class="map-ph"><span style="font-size:2rem">🗺️</span><span>El mapa aparece al conectar</span></div>
-    </div>
-  </div>
-
-  <!-- LOG -->
-  <div class="card">
-    <div class="card-title">Registro de eventos</div>
-    <ul class="log-list" id="log-list">
-      <li class="log-empty">Aún no hay eventos</li>
-    </ul>
-  </div>
-
 </div>
 
-<div class="toast" id="toast"><span id="t-icon">🚨</span><span id="t-msg"></span></div>
+<!-- ══════════════ SCREEN: PROFILE ══════════════ -->
+<div class="screen" id="screen-profile">
+  <div class="nav">
+    <button class="nav-back" onclick="saveProfile()">← Guardar</button>
+    <div class="nav-logo">Perfil</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="form-container">
+    <div class="field">
+      <label>Foto de tu mascota</label>
+      <div class="photo-upload" id="photo-upload-area">
+        <span>📷</span>
+        <span>Toca para subir foto</span>
+        <input type="file" accept="image/*" id="photo-input" onchange="handlePhoto(this)">
+        <img id="photo-preview" class="photo-preview" style="display:none">
+      </div>
+    </div>
+    <div class="field">
+      <label>Nombre de tu mascota</label>
+      <input type="text" id="pet-name" placeholder="Ej: Luna, Max, Coco..." maxlength="30">
+    </div>
+    <div class="field">
+      <label>Raza / Descripción</label>
+      <input type="text" id="pet-breed" placeholder="Ej: Labrador dorado, 3 años...">
+    </div>
+    <div class="field">
+      <label>Color</label>
+      <input type="text" id="pet-color" placeholder="Ej: Café con manchas blancas">
+    </div>
+    <div class="field">
+      <label>Características especiales</label>
+      <textarea id="pet-notes" placeholder="Ej: Collar azul, muy amigable, responde al nombre Luna..."></textarea>
+    </div>
+    <div class="field">
+      <label>Tu número de WhatsApp (para que te contacten)</label>
+      <input type="tel" id="owner-phone" placeholder="502 XXXX XXXX">
+    </div>
+    <div class="field">
+      <label>MAC del dispositivo (del QR)</label>
+      <input type="text" id="device-mac" value="BC:57:29:03:ED:71" placeholder="BC:57:29:03:ED:71" maxlength="17">
+    </div>
+    <button class="btn btn-primary" onclick="saveProfile()">Guardar perfil</button>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: INDIVIDUAL ══════════════ -->
+<div class="screen" id="screen-individual">
+  <div class="nav">
+    <button class="nav-back" onclick="stopAndGoHome()">← Inicio</button>
+    <div class="nav-logo">Búsqueda Individual</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="search-container">
+
+    <!-- Hint -->
+    <div class="hint-box">
+      ⏱️ <strong>Importante:</strong> El dispositivo transmite ~10 segundos al presionar su botón.<br>
+      Presiona el botón del tracker <strong>justo antes</strong> de tocar "Buscar".
+    </div>
+
+    <!-- Countdown -->
+    <div class="countdown-wrap" id="countdown-wrap">
+      <div class="countdown-num" id="countdown-num">10</div>
+      <div class="countdown-label">segundos para detectar — ¡presiona el botón del tracker!</div>
+    </div>
+
+    <!-- Device status -->
+    <div class="signal-card">
+      <div class="signal-card-title">Dispositivo</div>
+      <div class="dev-row">
+        <div class="dot" id="dot-ind"></div>
+        <div>
+          <div class="dev-name" id="dev-name-ind">Sin dispositivo</div>
+          <div class="dev-sub" id="dev-sub-ind">Presiona buscar para iniciar</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="btn-buscar" onclick="startIndividual()">
+        <span>📡</span> Buscar dispositivo
+      </button>
+      <button class="btn btn-outline btn-sm" id="btn-detener" onclick="stopSearch()" style="display:none;margin-top:8px">
+        ⏹ Detener búsqueda
+      </button>
+    </div>
+
+    <!-- Signal hot/cold -->
+    <div class="signal-card">
+      <div class="signal-card-title">Señal — Caliente / Frío</div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="ring-wrap">
+          <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+            <circle id="ring-bg2" cx="80" cy="80" r="70" fill="none" stroke-width="10"/>
+            <circle id="ring-fill2" cx="80" cy="80" r="70" fill="none" stroke-width="10"/>
+          </svg>
+          <div class="ring-center">
+            <span class="s-emoji" id="s-emoji">❓</span>
+            <div class="s-label" id="s-label">--</div>
+            <div class="s-dbm" id="s-dbm">esperando señal</div>
+          </div>
+        </div>
+        <div class="hist-bars" id="hist-bars" style="width:100%"></div>
+        <div class="temp-labels" style="width:100%"><span>🧊 Lejos</span><span>🔥 Cerca</span></div>
+        <div class="temp-bg" style="width:100%">
+          <div class="temp-cur" id="temp-cur"></div>
+        </div>
+        <div style="height:10px"></div>
+        <div class="advice-txt" id="advice-txt">Conecta el dispositivo para empezar</div>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div class="signal-card">
+      <div class="signal-card-title">Última ubicación detectada</div>
+      <div id="map-ind-wrap">
+        <div class="map-ph"><span style="font-size:2rem">🗺️</span><span>Aparece al detectar señal</span></div>
+      </div>
+    </div>
+
+    <!-- Log -->
+    <div class="signal-card">
+      <div class="signal-card-title">Registro</div>
+      <ul class="log-list" id="log-ind">
+        <li class="log-mt">Sin eventos aún</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: COMUNITARIA ══════════════ -->
+<div class="screen" id="screen-comunitaria">
+  <div class="nav">
+    <button class="nav-back" onclick="showScreen('screen-home')">← Inicio</button>
+    <div class="nav-logo">Modo Comunitario</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="link-container">
+
+    <div class="share-card">
+      <div class="big-icon">🔗</div>
+      <h3>Comparte el link de búsqueda</h3>
+      <p>Cuando alguien abra este link en Chrome (Android), su teléfono empieza a buscar el beacon de tu mascota automáticamente. Si lo detectan, te notifican por WhatsApp.</p>
+      <div class="link-box" id="share-link-box">Generando link...</div>
+      <div class="share-btns">
+        <button class="btn btn-primary" onclick="copyLink()"><span>📋</span> Copiar link</button>
+        <button class="btn btn-green" onclick="shareWhatsapp()"><span>💬</span> Compartir por WhatsApp</button>
+        <button class="btn btn-outline btn-sm" onclick="shareNative()" id="btn-share-native" style="display:none">
+          <span>📤</span> Más opciones
+        </button>
+      </div>
+    </div>
+
+    <div class="signal-card" style="margin-top:0">
+      <div class="signal-card-title">Cómo funciona</div>
+      <div style="font-size:.8rem;color:var(--muted);line-height:1.8">
+        1️⃣ Copia el link de arriba<br>
+        2️⃣ Envíalo a familiares y amigos<br>
+        3️⃣ Ellos lo abren en <strong style="color:var(--text)">Chrome en Android</strong><br>
+        4️⃣ Su teléfono busca automáticamente el beacon<br>
+        5️⃣ Si lo detectan, pueden enviarte su ubicación por WhatsApp
+      </div>
+    </div>
+
+    <!-- If this page was opened via a shared link — show scanner -->
+    <div id="shared-scanner" style="display:none">
+      <div class="hint-box">
+        📡 Alguien necesita tu ayuda para encontrar a su mascota.<br>
+        <strong>Toca el botón y escanea si el beacon está cerca.</strong>
+      </div>
+      <div class="signal-card">
+        <div class="signal-card-title">Mascota buscada</div>
+        <div class="dev-row">
+          <div class="dot" id="dot-com"></div>
+          <div>
+            <div class="dev-name" id="dev-name-com">Buscando mascota...</div>
+            <div class="dev-sub" id="dev-sub-com">Toca buscar para ayudar</div>
+          </div>
+        </div>
+        <div id="shared-pet-info" style="background:#0b0d11;border-radius:12px;padding:14px;margin-bottom:14px;font-size:.82rem;line-height:1.7;color:var(--muted)">
+          Cargando datos...
+        </div>
+        <button class="btn btn-primary" id="btn-com-buscar" onclick="startComunity()">
+          <span>🔍</span> Escanear ahora
+        </button>
+        <div id="com-result" style="display:none;margin-top:12px">
+          <button class="btn btn-green" onclick="reportFound()">
+            <span>📍</span> ¡Detectado! Enviar mi ubicación al dueño
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: MASIVA ══════════════ -->
+<div class="screen" id="screen-masiva">
+  <div class="nav">
+    <button class="nav-back" onclick="showScreen('screen-home')">← Inicio</button>
+    <div class="nav-logo">Alerta Masiva 🚨</div>
+    <div style="width:60px"></div>
+  </div>
+  <div style="padding:20px">
+
+    <div class="alert-card" id="alert-card">
+      <div style="font-size:2.5rem;text-align:center;margin-bottom:12px">🚨</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;text-align:center;margin-bottom:6px">Alerta de emergencia</div>
+      <div style="color:var(--muted);font-size:.8rem;text-align:center;line-height:1.5;margin-bottom:18px">
+        Comparte esta alerta con todos tus contactos. El link incluye los datos de tu mascota y activa el scanner automáticamente en sus teléfonos.
+      </div>
+      <div id="alert-pet-summary" style="background:#0b0d11;border-radius:12px;padding:14px;margin-bottom:16px;font-size:.82rem;line-height:1.8;color:var(--muted)">
+        Cargando datos...
+      </div>
+      <div style="display:grid;gap:10px">
+        <button class="btn btn-primary" onclick="shareWhatsapp(true)"><span>💬</span> Alerta por WhatsApp</button>
+        <button class="btn btn-outline btn-sm" onclick="shareNative(true)" id="btn-masiva-native">
+          <span>📤</span> Compartir en otras redes
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="copyLink(true)"><span>📋</span> Copiar link de alerta</button>
+      </div>
+    </div>
+
+    <div class="signal-card" style="margin-top:14px">
+      <div class="signal-card-title">Texto de alerta sugerido</div>
+      <div id="alert-text-preview" style="background:#0b0d11;border-radius:10px;padding:12px;font-size:.8rem;color:var(--muted);line-height:1.7;margin-bottom:12px">
+        Cargando...
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="copyAlertText()"><span>📋</span> Copiar texto</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="t-icon">✅</span><span id="t-msg"></span></div>
 
 <script>
-let bleDevice = null, map = null, userMarker = null;
-let rssiHistory = [], lostTimeout = null, geoWatchId = null;
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let pet = {
+  name: 'Mi Mascota', breed: '', color: '', notes: '', phone: '',
+  mac: 'BC:57:29:03:ED:71', photo: null
+};
+let bleDevice = null, map = null, marker = null;
+let rssiHist = [], lostTO = null, cdInterval = null, geoWatch = null;
+let isSharedMode = false;
+let sharedFoundLat = null, sharedFoundLng = null;
 
-// Init history bars
-const histEl = document.getElementById('rssi-history');
-for (let i = 0; i < 20; i++) {
-  const b = document.createElement('div');
-  b.className = 'rssi-bar';
-  b.style.height = '4px';
-  histEl.appendChild(b);
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+(function init() {
+  loadPet();
+  initHistBars();
+  checkSharedLink();
+  updateHomeCard();
+  updateAlertText();
+  generateShareLink();
+  if (navigator.share) {
+    document.getElementById('btn-share-native').style.display = 'flex';
+    document.getElementById('btn-masiva-native').style.display = 'flex';
+  }
+})();
+
+// ─── SCREENS ─────────────────────────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+function stopAndGoHome() { stopSearch(); showScreen('screen-home'); }
+
+// ─── PET PROFILE ─────────────────────────────────────────────────────────────
+function loadPet() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('rp_pet') || '{}');
+    pet = { ...pet, ...saved };
+  } catch(e) {}
+  // Populate form
+  document.getElementById('pet-name').value = pet.name || '';
+  document.getElementById('pet-breed').value = pet.breed || '';
+  document.getElementById('pet-color').value = pet.color || '';
+  document.getElementById('pet-notes').value = pet.notes || '';
+  document.getElementById('owner-phone').value = pet.phone || '';
+  document.getElementById('device-mac').value = pet.mac || 'BC:57:29:03:ED:71';
+  if (pet.photo) {
+    const prev = document.getElementById('photo-preview');
+    prev.src = pet.photo; prev.style.display = 'block';
+  }
 }
 
-async function startScan() {
+function handlePhoto(input) {
+  if (!input.files[0]) return;
+  const r = new FileReader();
+  r.onload = e => {
+    pet.photo = e.target.result;
+    const prev = document.getElementById('photo-preview');
+    prev.src = e.target.result; prev.style.display = 'block';
+  };
+  r.readAsDataURL(input.files[0]);
+}
+
+function saveProfile() {
+  pet.name   = document.getElementById('pet-name').value || 'Mi Mascota';
+  pet.breed  = document.getElementById('pet-breed').value;
+  pet.color  = document.getElementById('pet-color').value;
+  pet.notes  = document.getElementById('pet-notes').value;
+  pet.phone  = document.getElementById('owner-phone').value;
+  pet.mac    = document.getElementById('device-mac').value || 'BC:57:29:03:ED:71';
+  try { localStorage.setItem('rp_pet', JSON.stringify(pet)); } catch(e) {}
+  updateHomeCard();
+  updateAlertText();
+  generateShareLink();
+  showToast('Perfil guardado ✓', 'ok');
+  showScreen('screen-home');
+}
+
+function updateHomeCard() {
+  document.getElementById('home-pet-name').textContent = pet.name;
+  document.getElementById('home-pet-desc').textContent =
+    [pet.breed, pet.color].filter(Boolean).join(' · ') || 'Sin descripción — edita el perfil';
+  const av = document.getElementById('home-avatar');
+  if (pet.photo) {
+    av.innerHTML = `<img src="${pet.photo}" style="width:64px;height:64px;object-fit:cover;border-radius:50%">`;
+  } else {
+    av.textContent = '🐶';
+  }
+}
+
+function updateAlertText() {
+  const lines = [
+    `🚨 ¡MASCOTA PERDIDA!`,
+    `🐾 Nombre: ${pet.name}`,
+    pet.breed  ? `🦴 Raza: ${pet.breed}` : '',
+    pet.color  ? `🎨 Color: ${pet.color}` : '',
+    pet.notes  ? `📝 ${pet.notes}` : '',
+    pet.phone  ? `📞 Contacto: ${pet.phone}` : '',
+    `\n👉 Abre este link para ayudarme a encontrarlo:`,
+    `[link]`
+  ].filter(Boolean).join('\n');
+  document.getElementById('alert-text-preview').textContent = lines;
+
+  const summary = [
+    `🐾 <b>${pet.name}</b>`,
+    pet.breed ? `Raza: ${pet.breed}` : '',
+    pet.color ? `Color: ${pet.color}` : '',
+    pet.notes ? pet.notes : '',
+    pet.phone ? `📞 ${pet.phone}` : ''
+  ].filter(Boolean).join('<br>');
+  document.getElementById('alert-pet-summary').innerHTML = summary;
+  document.getElementById('alert-pet-summary').style.color = 'var(--text)';
+}
+
+// ─── SHARE LINK ───────────────────────────────────────────────────────────────
+function generateShareLink() {
+  const base = window.location.href.split('?')[0].split('#')[0];
+  const params = new URLSearchParams({
+    scan: '1',
+    name: pet.name,
+    breed: pet.breed || '',
+    color: pet.color || '',
+    notes: pet.notes || '',
+    phone: pet.phone || '',
+    mac: pet.mac
+  });
+  const link = `${base}?${params.toString()}`;
+  document.getElementById('share-link-box').textContent = link;
+  return link;
+}
+
+function getAlertMessage(withLink = false) {
+  const link = generateShareLink();
+  return `🚨 ¡MASCOTA PERDIDA!\n🐾 ${pet.name}${pet.breed ? '\n🦴 ' + pet.breed : ''}${pet.color ? '\n🎨 ' + pet.color : ''}${pet.notes ? '\n📝 ' + pet.notes : ''}${pet.phone ? '\n📞 ' + pet.phone : ''}\n\n👉 Abre este link para ayudarme a buscarlo:\n${link}`;
+}
+
+function copyLink(masiva = false) {
+  const link = generateShareLink();
+  navigator.clipboard.writeText(link).then(() => showToast('Link copiado ✓', 'ok')).catch(() => showToast('No se pudo copiar', 'warn'));
+}
+
+function copyAlertText() {
+  const txt = getAlertMessage();
+  navigator.clipboard.writeText(txt).then(() => showToast('Texto copiado ✓', 'ok')).catch(() => {});
+}
+
+function shareWhatsapp(masiva = false) {
+  const msg = getAlertMessage();
+  const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
+function shareNative(masiva = false) {
+  if (!navigator.share) return;
+  const link = generateShareLink();
+  navigator.share({ title: `🚨 Ayúdame a encontrar a ${pet.name}`, text: getAlertMessage(), url: link }).catch(() => {});
+}
+
+// ─── SHARED LINK DETECTION ────────────────────────────────────────────────────
+function checkSharedLink() {
+  const p = new URLSearchParams(window.location.search);
+  if (!p.get('scan')) return;
+
+  isSharedMode = true;
+  // Load pet from URL
+  const sharedPet = {
+    name: p.get('name') || 'Mascota',
+    breed: p.get('breed') || '',
+    color: p.get('color') || '',
+    notes: p.get('notes') || '',
+    phone: p.get('phone') || '',
+    mac: p.get('mac') || ''
+  };
+
+  // Show comunitaria screen right away
+  showScreen('screen-comunitaria');
+  document.getElementById('shared-scanner').style.display = 'block';
+  document.getElementById('dev-name-com').textContent = `Buscando: ${sharedPet.name}`;
+
+  const info = [
+    `🐾 <b>${sharedPet.name}</b>`,
+    sharedPet.breed ? `Raza: ${sharedPet.breed}` : '',
+    sharedPet.color ? `Color: ${sharedPet.color}` : '',
+    sharedPet.notes ? `📝 ${sharedPet.notes}` : '',
+    sharedPet.phone ? `📞 Dueño: ${sharedPet.phone}` : ''
+  ].filter(Boolean).join('<br>');
+  document.getElementById('shared-pet-info').innerHTML = info;
+  document.getElementById('shared-pet-info').style.color = 'var(--text)';
+
+  // Update the community mac target
+  pet.mac = sharedPet.mac;
+  pet.phone = sharedPet.phone;
+  pet.name = sharedPet.name;
+}
+
+// ─── INDIVIDUAL SEARCH ────────────────────────────────────────────────────────
+async function startIndividual() {
   if (!navigator.bluetooth) {
-    addLog('❌ Web Bluetooth no disponible. Usa Chrome en Android.');
+    addLog('❌ Web Bluetooth no disponible. Usa Chrome en Android.', 'ind');
     showToast('Necesitas Chrome en Android', 'warn');
     return;
   }
-
   try {
-    setBtnState('scanning');
-    setStatus('Buscando...', '');
-    addLog('🔍 Abriendo selector Bluetooth...');
+    document.getElementById('btn-buscar').disabled = true;
+    document.getElementById('btn-buscar').innerHTML = '<span class="spinning">📡</span> Buscando...';
+    setDot('ind', ''); setDevSub('ind', 'Abriendo selector Bluetooth...');
+    addLog('🔍 Abriendo selector...', 'ind');
+
+    // Show countdown
+    startCountdown();
 
     bleDevice = await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
-
     const name = bleDevice.name || 'Dispositivo sin nombre';
-    document.getElementById('device-name').textContent = '🐾 ' + name;
-    addLog(`✅ Dispositivo: ${name}`);
+    document.getElementById('dev-name-ind').textContent = '🐾 ' + name;
+    addLog(`✅ Seleccionado: ${name}`, 'ind');
 
-    // Try watchAdvertisements first (gives real RSSI)
+    document.getElementById('btn-buscar').style.display = 'none';
+    document.getElementById('btn-detener').style.display = 'flex';
+
     if (typeof bleDevice.watchAdvertisements === 'function') {
-      addLog('📡 Activando monitoreo de señal (modo real)...');
-      try {
-        await bleDevice.watchAdvertisements();
-        bleDevice.addEventListener('advertisementreceived', onAdvert);
-        setStatus('Monitoreando ✓ (señal real)', 'on');
-        showToast('¡Conectado! Señal en tiempo real activa', 'ok');
-        addLog('✅ RSSI real activado — mueve el dispositivo para ver caliente/frío');
-      } catch(e) {
-        addLog('⚠️ watchAdvertisements falló: ' + e.message + '. Usando GATT...');
-        await connectGATTFallback();
-      }
+      await bleDevice.watchAdvertisements();
+      bleDevice.addEventListener('advertisementreceived', (e) => {
+        if (e.rssi != null) { onRSSI(e.rssi); resetLost(); }
+      });
+      setDot('ind', 'on'); setDevSub('ind', 'Monitoreando señal en tiempo real');
+      showToast('Conectado — señal real activa', 'ok');
+      addLog('✅ RSSI real — acerca o aleja el dispositivo', 'ind');
     } else {
-      addLog('⚠️ watchAdvertisements no soportado. Conectando GATT...');
       await connectGATTFallback();
     }
-
-    document.getElementById('btn-stop').style.display = 'block';
-    document.getElementById('btn-scan').style.display = 'none';
-    setBtnState('connected');
-    startGPS();
-    startLostCheck();
-
-  } catch(err) {
-    setBtnState('idle');
-    setStatus('Sin dispositivo', '');
-    document.getElementById('device-name').textContent = 'Sin dispositivo';
-    if (err.name !== 'NotFoundError') {
-      addLog('❌ Error: ' + err.message);
-      showToast('Error: ' + err.message, 'warn');
-    } else {
-      addLog('Búsqueda cancelada');
-    }
+    scheduleLost();
+    startGPS('ind');
+  } catch(e) {
+    document.getElementById('btn-buscar').disabled = false;
+    document.getElementById('btn-buscar').innerHTML = '<span>📡</span> Buscar dispositivo';
+    clearCountdown();
+    if (e.name !== 'NotFoundError') { addLog('❌ ' + e.message, 'ind'); showToast(e.message, 'warn'); }
+    else addLog('Búsqueda cancelada', 'ind');
+    setDot('ind', ''); setDevSub('ind', 'Presiona buscar para iniciar');
+    document.getElementById('dev-name-ind').textContent = 'Sin dispositivo';
   }
-}
-
-function onAdvert(event) {
-  resetLostCheck();
-  const rssi = event.rssi;
-  if (rssi != null) updateSignal(rssi);
 }
 
 async function connectGATTFallback() {
   try {
     await bleDevice.gatt.connect();
-    setStatus('Conectado GATT ✓ (RSSI estimado)', 'on');
-    showToast('Conectado. RSSI estimado activo', 'ok');
-    addLog('✅ GATT conectado — RSSI estimado (variaciones pequeñas son normales)');
-
-    // Simulate continuous RSSI — starts at -68 (typical indoor 3-5m)
+    setDot('ind', 'on'); setDevSub('ind', 'GATT conectado — RSSI estimado');
+    addLog('✅ GATT conectado — RSSI estimado', 'ind');
+    showToast('Conectado (RSSI estimado)', 'ok');
     let sim = -68;
     const iv = setInterval(() => {
-      if (!bleDevice || !bleDevice.gatt.connected) { clearInterval(iv); return; }
-      sim += (Math.random() - 0.5) * 5;
+      if (!bleDevice?.gatt?.connected) { clearInterval(iv); return; }
+      sim += (Math.random() - .5) * 5;
       sim = Math.max(-100, Math.min(-40, sim));
-      updateSignal(Math.round(sim));
-      resetLostCheck();
+      onRSSI(Math.round(sim));
+      resetLost();
     }, 1200);
     bleDevice._iv = iv;
   } catch(e) {
-    addLog('⚠️ GATT también falló: ' + e.message);
-    setStatus('Conectado (sin RSSI)', 'on');
-    addLog('ℹ️ El dispositivo está activo pero no podemos leer señal en este navegador');
+    addLog('⚠️ GATT también falló: ' + e.message, 'ind');
+    setDot('ind', 'on'); setDevSub('ind', 'Activo sin RSSI');
   }
 }
 
-// Signal lost detection
-function startLostCheck() {
-  resetLostCheck();
-}
-function resetLostCheck() {
-  clearTimeout(lostTimeout);
-  if (document.getElementById('dot').classList.contains('lost')) {
-    setStatus('Señal recuperada ✓', 'on');
-    showToast('¡Señal recuperada!', 'ok');
-    addLog('✅ Señal recuperada');
-  }
-  lostTimeout = setTimeout(() => {
-    setStatus('⚠️ Señal perdida', 'lost');
-    addLog('🚨 ALERTA: Señal perdida. ¿Tu mascota se alejó?');
-    showToast('¡Señal perdida! Revisa el mapa', 'warn');
-    document.getElementById('s-emoji').textContent = '🚨';
-    document.getElementById('s-label').textContent = 'PERDIDA';
-    document.getElementById('s-label').style.color = '#ef4444';
-    document.getElementById('advice').textContent = '⚠️ Sin señal. Busca en la última ubicación del mapa.';
-    document.getElementById('advice').style.color = '#ef4444';
-  }, 12000);
-}
-
-function stopScan() {
+function stopSearch() {
   try {
     if (bleDevice) {
       if (bleDevice._iv) clearInterval(bleDevice._iv);
@@ -397,108 +776,192 @@ function stopScan() {
       bleDevice = null;
     }
   } catch(e) {}
-  if (geoWatchId !== null) navigator.geolocation.clearWatch(geoWatchId);
-  clearTimeout(lostTimeout);
-  setBtnState('idle');
-  setStatus('Sin dispositivo', '');
-  document.getElementById('device-name').textContent = 'Sin dispositivo';
-  document.getElementById('btn-scan').style.display = 'flex';
-  document.getElementById('btn-stop').style.display = 'none';
-  addLog('⏹ Rastreo detenido');
+  if (geoWatch !== null) { navigator.geolocation.clearWatch(geoWatch); geoWatch = null; }
+  clearTimeout(lostTO); clearCountdown();
+  setDot('ind', ''); setDevSub('ind', 'Presiona buscar para iniciar');
+  document.getElementById('dev-name-ind').textContent = 'Sin dispositivo';
+  document.getElementById('btn-buscar').disabled = false;
+  document.getElementById('btn-buscar').innerHTML = '<span>📡</span> Buscar dispositivo';
+  document.getElementById('btn-buscar').style.display = 'flex';
+  document.getElementById('btn-detener').style.display = 'none';
+  addLog('⏹ Búsqueda detenida', 'ind');
 }
 
-function updateSignal(rssi) {
-  rssiHistory.push(rssi);
-  if (rssiHistory.length > 20) rssiHistory.shift();
-  renderBars();
+// ─── COMMUNITY SCAN ───────────────────────────────────────────────────────────
+async function startComunity() {
+  if (!navigator.bluetooth) { showToast('Necesitas Chrome en Android', 'warn'); return; }
+  try {
+    document.getElementById('btn-com-buscar').disabled = true;
+    document.getElementById('btn-com-buscar').innerHTML = '<span class="spinning">🔍</span> Escaneando...';
+    setDot('com', ''); setDevSub('com', 'Buscando beacon...');
 
-  const pct = Math.max(0, Math.min(100, ((rssi + 100) / 60) * 100));
-  document.getElementById('ring-fill').style.strokeDashoffset = 490 - (pct/100)*490;
-  document.getElementById('temp-cursor').style.left = pct + '%';
+    bleDevice = await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
+    setDot('com', 'on'); setDevSub('com', 'Detectado — obteniendo ubicación...');
+    showToast('¡Beacon detectado!', 'ok');
+    document.getElementById('btn-com-buscar').innerHTML = '✅ ¡Detectado!';
+
+    // Get location to report
+    navigator.geolocation.getCurrentPosition(pos => {
+      sharedFoundLat = pos.coords.latitude;
+      sharedFoundLng = pos.coords.longitude;
+      document.getElementById('com-result').style.display = 'block';
+    }, () => {
+      document.getElementById('com-result').style.display = 'block';
+    });
+  } catch(e) {
+    document.getElementById('btn-com-buscar').disabled = false;
+    document.getElementById('btn-com-buscar').innerHTML = '<span>🔍</span> Escanear ahora';
+    if (e.name !== 'NotFoundError') showToast('Error: ' + e.message, 'warn');
+  }
+}
+
+function reportFound() {
+  let msg = `📍 ¡Encontré el beacon de *${pet.name}*!\n`;
+  if (sharedFoundLat && sharedFoundLng) {
+    msg += `Mi ubicación: https://maps.google.com/?q=${sharedFoundLat},${sharedFoundLng}`;
+  } else {
+    msg += `(No pude obtener GPS automáticamente, pero el dispositivo está cerca de mí)`;
+  }
+  const phone = pet.phone ? pet.phone.replace(/\D/g,'') : '';
+  const url = phone
+    ? `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`
+    : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
+// ─── SIGNAL ───────────────────────────────────────────────────────────────────
+function onRSSI(rssi) {
+  rssiHist.push(rssi);
+  if (rssiHist.length > 20) rssiHist.shift();
+  renderBars();
+  const pct = Math.max(0, Math.min(100, ((rssi+100)/60)*100));
+  document.getElementById('ring-fill2').style.strokeDashoffset = 440 - (pct/100)*440;
+  document.getElementById('temp-cur').style.left = pct + '%';
 
   let color, emoji, label, advice;
   if (rssi > -55)      { color='#ef4444'; emoji='🔥🔥'; label='¡MUY CERCA!'; advice='Menos de 1 metro. ¡Ya deberías verla!'; }
-  else if (rssi > -65) { color='#f97316'; emoji='🔥';   label='CALIENTE';    advice='Entre 1 y 5 metros. ¡Sigue así!'; }
-  else if (rssi > -75) { color='#fbbf24'; emoji='🌡️';  label='TIBIO';       advice='Entre 5 y 15 metros. Muévete hacia la señal más fuerte.'; }
-  else if (rssi > -85) { color='#06b6d4'; emoji='❄️';   label='FRÍO';        advice='Entre 15 y 30 metros. Camina en otra dirección.'; }
-  else                 { color='#3b82f6'; emoji='🧊';   label='MUY FRÍO';    advice='Más de 30 metros. Sigue buscando activamente.'; }
+  else if (rssi > -65) { color='#f97316'; emoji='🔥';   label='CALIENTE';    advice='1–5 metros. ¡Vas muy bien!'; }
+  else if (rssi > -75) { color='#fbbf24'; emoji='🌡️';  label='TIBIO';       advice='5–15 metros. Muévete hacia donde suba la señal.'; }
+  else if (rssi > -85) { color='#06b6d4'; emoji='❄️';   label='FRÍO';        advice='15–30 metros. Busca en otra dirección.'; }
+  else                 { color='#3b82f6'; emoji='🧊';   label='MUY FRÍO';    advice='Más de 30 metros. Sigue buscando.'; }
 
-  document.getElementById('ring-fill').style.stroke = color;
+  document.getElementById('ring-fill2').style.stroke = color;
   document.getElementById('s-emoji').textContent = emoji;
   document.getElementById('s-label').textContent = label;
   document.getElementById('s-label').style.color = color;
   document.getElementById('s-dbm').textContent = rssi + ' dBm';
-  document.getElementById('advice').textContent = advice;
-  document.getElementById('advice').style.color = color;
-  document.getElementById('temp-cursor').style.borderColor = color;
+  document.getElementById('advice-txt').textContent = advice;
+  document.getElementById('advice-txt').style.color = color;
+  document.getElementById('temp-cur').style.borderColor = color;
 }
 
+function initHistBars() {
+  const el = document.getElementById('hist-bars');
+  for (let i=0;i<20;i++) { const b=document.createElement('div'); b.className='hbar'; el.appendChild(b); }
+}
 function renderBars() {
-  const bars = histEl.querySelectorAll('.rssi-bar');
-  rssiHistory.forEach((v, i) => {
-    const h = Math.max(4, Math.min(100, ((v + 100)/60)*100));
-    const c = v > -65 ? '#f97316' : v > -75 ? '#fbbf24' : '#3b82f6';
+  const bars = document.querySelectorAll('.hbar');
+  rssiHist.forEach((v,i) => {
+    const h = Math.max(4, Math.min(100, ((v+100)/60)*100));
     bars[i].style.height = h + '%';
-    bars[i].style.background = c;
-    bars[i].style.opacity = i === rssiHistory.length-1 ? '1' : '0.45';
+    bars[i].style.background = v > -65 ? '#f97316' : v > -75 ? '#fbbf24' : '#3b82f6';
+    bars[i].style.opacity = i===rssiHist.length-1 ? '1' : '.4';
   });
 }
 
-function startGPS() {
-  if (!navigator.geolocation) return;
-  navigator.geolocation.getCurrentPosition(p => {
-    showMap(p.coords.latitude, p.coords.longitude);
-    addLog(`📍 Ubicación: ${p.coords.latitude.toFixed(5)}, ${p.coords.longitude.toFixed(5)}`);
-  }, e => addLog('⚠️ GPS: ' + e.message), { enableHighAccuracy: true });
-
-  geoWatchId = navigator.geolocation.watchPosition(p => {
-    if (userMarker) userMarker.setLatLng([p.coords.latitude, p.coords.longitude]);
-  }, null, { enableHighAccuracy: true });
+// ─── COUNTDOWN ────────────────────────────────────────────────────────────────
+function startCountdown() {
+  let secs = 10;
+  const wrap = document.getElementById('countdown-wrap');
+  const num = document.getElementById('countdown-num');
+  wrap.style.display = 'block';
+  num.textContent = secs;
+  cdInterval = setInterval(() => {
+    secs--;
+    num.textContent = secs;
+    if (secs <= 0) clearCountdown();
+  }, 1000);
+}
+function clearCountdown() {
+  clearInterval(cdInterval);
+  document.getElementById('countdown-wrap').style.display = 'none';
 }
 
+// ─── SIGNAL LOST ─────────────────────────────────────────────────────────────
+function scheduleLost() {
+  clearTimeout(lostTO);
+  lostTO = setTimeout(() => {
+    setDot('ind', 'lost');
+    setDevSub('ind', '⚠️ Señal perdida');
+    addLog('🚨 Señal perdida — ¿tu mascota se alejó?', 'ind');
+    showToast('¡Señal perdida! Revisa el mapa', 'warn');
+    document.getElementById('s-emoji').textContent = '🚨';
+    document.getElementById('s-label').textContent = 'PERDIDA';
+    document.getElementById('s-label').style.color = '#ef4444';
+    document.getElementById('advice-txt').textContent = '⚠️ Sin señal. Busca desde la última ubicación del mapa.';
+    document.getElementById('advice-txt').style.color = '#ef4444';
+  }, 12000);
+}
+function resetLost() {
+  clearTimeout(lostTO);
+  setDot('ind', 'on');
+  scheduleLost();
+}
+
+// ─── GPS / MAP ────────────────────────────────────────────────────────────────
+function startGPS(mode) {
+  if (!navigator.geolocation) return;
+  navigator.geolocation.getCurrentPosition(pos => {
+    showMap(pos.coords.latitude, pos.coords.longitude);
+    addLog(`📍 ${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`, 'ind');
+  }, e => addLog('⚠️ GPS: ' + e.message, 'ind'), { enableHighAccuracy: true });
+
+  geoWatch = navigator.geolocation.watchPosition(pos => {
+    if (marker) marker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
+  }, null, { enableHighAccuracy: true });
+}
 function showMap(lat, lng) {
-  document.getElementById('map-container').innerHTML = '<div id="map"></div>';
+  document.getElementById('map-ind-wrap').innerHTML = '<div id="map"></div>';
   map = L.map('map', { attributionControl: false }).setView([lat, lng], 17);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 20 }).addTo(map);
   const icon = L.divIcon({
-    html: `<div style="background:linear-gradient(135deg,#f97316,#ea580c);width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid white;box-shadow:0 4px 15px rgba(249,115,22,.6);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:15px;line-height:28px;display:block">🐾</span></div>`,
-    className: '', iconSize: [34,34], iconAnchor: [17,34]
+    html: `<div style="background:linear-gradient(135deg,#f97316,#ea580c);width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid white;box-shadow:0 4px 12px rgba(249,115,22,.6);display:flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);font-size:14px;line-height:26px;display:block">🐾</span></div>`,
+    className:'', iconSize:[32,32], iconAnchor:[16,32]
   });
-  userMarker = L.marker([lat, lng], { icon }).addTo(map);
-  userMarker.bindPopup('<b>📍 Señal detectada aquí</b>').openPopup();
+  marker = L.marker([lat, lng], { icon }).addTo(map).bindPopup('<b>📍 Tu posición</b>').openPopup();
 }
 
-function setStatus(txt, type) {
-  document.getElementById('device-sub').textContent = txt;
-  const d = document.getElementById('dot');
+// ─── UI HELPERS ───────────────────────────────────────────────────────────────
+function setDot(mode, state) {
+  const d = document.getElementById('dot-' + mode);
+  if (!d) return;
   d.className = 'dot';
-  if (type === 'on') d.classList.add('on');
-  if (type === 'lost') d.classList.add('lost');
+  if (state === 'on') d.classList.add('on');
+  if (state === 'lost') d.classList.add('lost');
+}
+function setDevSub(mode, txt) {
+  const el = document.getElementById('dev-sub-' + mode);
+  if (el) el.textContent = txt;
 }
 
-function setBtnState(state) {
-  const btn = document.getElementById('btn-scan');
-  if (state === 'scanning') { btn.disabled = true; btn.innerHTML = '<span class="spinning">📡</span> Buscando...'; }
-  else if (state === 'idle') { btn.disabled = false; btn.innerHTML = '<span>📡</span> Buscar dispositivo'; }
-}
-
-function addLog(msg) {
-  const list = document.getElementById('log-list');
-  const empty = list.querySelector('.log-empty');
+function addLog(msg, mode = 'ind') {
+  const list = document.getElementById('log-' + mode);
+  if (!list) return;
+  const empty = list.querySelector('.log-mt');
   if (empty) empty.remove();
   const time = new Date().toLocaleTimeString('es-GT');
   const li = document.createElement('li');
   li.className = 'log-item';
   li.innerHTML = `<span class="log-msg">${msg}</span><span class="log-time">${time}</span>`;
   list.insertBefore(li, list.firstChild);
-  while (list.children.length > 25) list.removeChild(list.lastChild);
+  while (list.children.length > 20) list.removeChild(list.lastChild);
 }
 
 let toastTO;
-function showToast(msg, type = 'warn') {
+function showToast(msg, type='ok') {
   const t = document.getElementById('toast');
+  document.getElementById('t-icon').textContent = type==='ok'?'✅':type==='info'?'ℹ️':'🚨';
   document.getElementById('t-msg').textContent = msg;
-  document.getElementById('t-icon').textContent = type === 'ok' ? '✅' : '🚨';
   t.className = `toast ${type} show`;
   clearTimeout(toastTO);
   toastTO = setTimeout(() => t.classList.remove('show'), 4500);
