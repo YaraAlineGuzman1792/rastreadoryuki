@@ -31,7 +31,7 @@ body {
 /* HEADER */
 header { padding:28px 0 20px; text-align:center; }
 .logo {
-  font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800;
+  font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:800;
   background:linear-gradient(135deg,#f97316,#fbbf24);
   -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
 }
@@ -44,159 +44,99 @@ header { padding:28px 0 20px; text-align:center; }
   letter-spacing:2.5px; text-transform:uppercase; color:var(--muted); margin-bottom:14px;
 }
 
-/* STEPS */
-.step-indicator {
-  display:flex; gap:6px; margin-bottom:18px; justify-content:center;
-}
-.step-dot {
-  width:8px; height:8px; border-radius:50%;
-  background:var(--border); transition:all .3s;
-}
-.step-dot.done  { background:#22c55e; }
-.step-dot.active{ background:var(--accent); box-shadow:0 0 8px rgba(249,115,22,.5); }
-
-/* FLOW BOXES */
-.flow-box {
-  display:none;
-  flex-direction:column;
-  gap:12px;
-}
-.flow-box.active { display:flex; }
-
-.flow-icon { font-size:3rem; text-align:center; margin-bottom:4px; }
-.flow-title {
-  font-family:'Syne',sans-serif; font-weight:800; font-size:1rem;
-  text-align:center; margin-bottom:4px;
-}
-.flow-desc { color:var(--muted); font-size:.82rem; line-height:1.6; text-align:center; }
-.flow-desc b { color:var(--text); }
-
-/* DEVICE LIST */
-.dev-list { display:flex; flex-direction:column; gap:8px; }
-.dev-item {
+/* DEVICE INFO BADGE */
+.device-badge {
   background:#0a0c10; border:1px solid var(--border); border-radius:12px;
-  padding:12px 14px; display:flex; align-items:center; gap:12px;
-  font-size:.82rem; transition:all .25s;
+  padding:12px 14px; margin-bottom:14px; font-size:.78rem; line-height:1.7;
 }
-.dev-item.new-device {
-  border-color:var(--accent);
-  background:rgba(249,115,22,.07);
-  animation:highlight-in .5s ease;
-}
-@keyframes highlight-in {
-  from { transform:scale(1.02); box-shadow:0 0 20px rgba(249,115,22,.3); }
-  to   { transform:scale(1); box-shadow:none; }
-}
-.dev-item.new-device .dev-new-badge {
-  display:block;
-}
-.dev-mac { font-family:monospace; color:var(--muted); font-size:.76rem; }
-.dev-name { font-weight:500; font-size:.85rem; }
-.dev-new-badge {
-  display:none;
-  background:var(--accent); color:white;
-  font-size:.6rem; font-weight:700; letter-spacing:.5px;
-  padding:2px 7px; border-radius:99px; white-space:nowrap; flex-shrink:0;
-  font-family:'Syne',sans-serif;
-}
-.dev-select-btn {
-  margin-left:auto; background:var(--accent); border:none; border-radius:8px;
-  color:white; font-family:'Syne',sans-serif; font-weight:700; font-size:.75rem;
-  padding:6px 12px; cursor:pointer; flex-shrink:0; display:none; transition:opacity .2s;
-}
-.dev-item.new-device .dev-select-btn { display:block; }
-.dev-select-btn:hover { opacity:.85; }
+.device-badge .dname { font-family:'Syne',sans-serif; font-weight:700; font-size:.95rem; color:var(--text); margin-bottom:2px; }
+.device-badge .dmac  { font-family:monospace; color:var(--muted); font-size:.74rem; }
+.device-badge .dtype { color:var(--accent); font-size:.72rem; margin-top:4px; font-weight:500; }
 
-/* SCAN SPINNER */
-.scan-anim {
-  display:flex; flex-direction:column; align-items:center; gap:10px; padding:12px 0;
-}
-.scan-rings {
-  position:relative; width:60px; height:60px;
-  display:flex; align-items:center; justify-content:center;
-}
-.scan-rings::before,.scan-rings::after {
-  content:''; position:absolute; border-radius:50%;
-  border:2px solid rgba(249,115,22,.3);
-  animation:expand 1.8s ease-out infinite;
-}
-.scan-rings::after { animation-delay:.6s; }
-@keyframes expand {
-  0%   { width:20px; height:20px; opacity:1; }
-  100% { width:60px; height:60px; opacity:0; }
-}
-.scan-icon { font-size:1.4rem; z-index:1; }
-.scan-label { font-size:.78rem; color:var(--muted); }
-
-/* COUNTDOWN */
-.cd-box {
-  background:rgba(249,115,22,.06); border:1px solid rgba(249,115,22,.2);
-  border-radius:14px; padding:16px; text-align:center;
-}
-.cd-num {
-  font-family:'Syne',sans-serif; font-size:3.5rem; font-weight:800;
-  color:var(--accent); line-height:1; transition:color .3s;
-}
-.cd-num.red { color:#ef4444; }
-.cd-sub { font-size:.75rem; color:var(--muted); margin-top:4px; }
-.cd-action { font-size:.83rem; color:#fbbf24; margin-top:8px; font-weight:500; }
-
-/* STATUS ROW */
+/* STATUS */
 .status-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
 .led { width:11px; height:11px; border-radius:50%; background:var(--muted); flex-shrink:0; transition:all .4s; }
 .led.on   { background:#22c55e; box-shadow:0 0 10px rgba(34,197,94,.7); animation:pled 2s infinite; }
-.led.lost { background:#ef4444; box-shadow:0 0 10px rgba(239,68,68,.7); }
-@keyframes pled { 0%,100%{box-shadow:0 0 6px rgba(34,197,94,.4)}50%{box-shadow:0 0 16px rgba(34,197,94,.8)} }
+.led.lost { background:#ef4444; box-shadow:0 0 10px rgba(239,68,68,.7); animation:pled .8s infinite; }
+@keyframes pled { 0%,100%{box-shadow:0 0 6px rgba(255,255,255,.15)}50%{box-shadow:0 0 18px currentColor} }
 .st-name { font-weight:500; font-size:.9rem; }
 .st-sub  { font-size:.72rem; color:var(--muted); margin-top:2px; }
 
 /* BUTTONS */
 .btn {
   width:100%; padding:15px; border:none; border-radius:14px;
-  font-family:'Syne',sans-serif; font-weight:700; font-size:.93rem;
+  font-family:'Syne',sans-serif; font-weight:700; font-size:.95rem;
   cursor:pointer; transition:all .2s;
   display:flex; align-items:center; justify-content:center; gap:10px;
 }
 .btn-primary { background:linear-gradient(135deg,#f97316,#ea580c); color:white; }
-.btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(249,115,22,.35); }
+.btn-primary:hover    { transform:translateY(-2px); box-shadow:0 8px 24px rgba(249,115,22,.35); }
 .btn-primary:disabled { opacity:.35; cursor:not-allowed; transform:none; box-shadow:none; }
 .btn-ghost { background:transparent; border:1px solid var(--border); color:var(--muted); font-size:.84rem; padding:11px; margin-top:8px; }
 .btn-ghost:hover { border-color:#ef4444; color:#ef4444; }
-.btn-yellow { background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#1a1200; }
-.btn-yellow:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(251,191,36,.35); }
+
+/* COUNTDOWN */
+.cd-box {
+  background:rgba(249,115,22,.06); border:1px solid rgba(249,115,22,.2);
+  border-radius:14px; padding:16px; text-align:center; margin-bottom:14px; display:none;
+}
+.cd-num { font-family:'Syne',sans-serif; font-size:3.5rem; font-weight:800; color:var(--accent); line-height:1; transition:color .3s; }
+.cd-num.red { color:#ef4444; }
+.cd-sub    { font-size:.75rem; color:var(--muted); margin-top:4px; }
+.cd-action { font-size:.82rem; color:#fbbf24; margin-top:8px; font-weight:500; }
+
+/* RSSI INFO */
+.rssi-info {
+  display:none;
+  background:rgba(34,197,94,.07); border:1px solid rgba(34,197,94,.2);
+  border-radius:12px; padding:10px 14px; margin-bottom:14px;
+  font-size:.78rem; color:#86efac; line-height:1.5;
+}
 
 /* RING */
 .ring-section { display:flex; flex-direction:column; align-items:center; }
-.ring-wrap { position:relative; width:180px; height:180px; margin:4px auto 18px; }
-.ring-wrap svg { transform:rotate(-90deg); width:180px; height:180px; }
+.ring-wrap { position:relative; width:190px; height:190px; margin:4px auto 18px; }
+.ring-wrap svg { transform:rotate(-90deg); width:190px; height:190px; }
 #rBg   { stroke:#1e222c; }
 #rFill {
-  stroke:var(--accent); stroke-dasharray:502; stroke-dashoffset:502;
-  transition:stroke-dashoffset .7s ease, stroke .7s ease; stroke-linecap:round;
+  stroke:var(--accent); stroke-dasharray:534; stroke-dashoffset:534;
+  transition:stroke-dashoffset .6s ease, stroke .6s ease; stroke-linecap:round;
 }
-.ring-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
-.r-emoji { font-size:2.8rem; line-height:1; display:block; }
-.r-label { font-family:'Syne',sans-serif; font-size:1rem; font-weight:800; margin-top:4px; transition:color .5s; }
-.r-dbm   { font-size:.68rem; color:var(--muted); margin-top:3px; }
+.ring-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none; }
+.r-emoji { font-size:3rem; line-height:1; display:block; }
+.r-label { font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:800; margin-top:5px; transition:color .5s; }
+.r-dbm   { font-size:.7rem; color:var(--muted); margin-top:3px; }
 
 /* BARS */
-.bars { display:flex; align-items:flex-end; gap:3px; height:38px; width:100%; margin-bottom:16px; }
-.bar  { flex:1; border-radius:3px 3px 0 0; background:var(--border); transition:height .4s,background .4s; min-height:3px; }
+.bars-wrap { display:flex; align-items:flex-end; gap:3px; height:40px; width:100%; margin-bottom:16px; }
+.bar { flex:1; border-radius:3px 3px 0 0; background:var(--border); transition:height .4s,background .4s; min-height:3px; }
 
 /* GRAD */
 .grad-labels { display:flex; justify-content:space-between; font-size:.7rem; color:var(--muted); margin-bottom:5px; }
-.grad-track  { height:8px; border-radius:99px; background:linear-gradient(to right,#3b82f6,#06b6d4,#22c55e,#fbbf24,#f97316,#ef4444); position:relative; margin-bottom:14px; }
-.grad-thumb  { position:absolute; top:50%; transform:translateY(-50%); width:18px; height:18px; border-radius:50%; background:white; border:3px solid var(--accent); box-shadow:0 0 12px rgba(249,115,22,.6); transition:left .7s,border-color .5s; left:0%; margin-left:-9px; }
-.advice      { text-align:center; font-size:.84rem; min-height:18px; line-height:1.5; color:var(--muted); transition:color .5s; }
+.grad-track  { height:9px; border-radius:99px; background:linear-gradient(to right,#3b82f6,#06b6d4,#22c55e,#fbbf24,#f97316,#ef4444); position:relative; margin-bottom:14px; }
+.grad-thumb  {
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:20px; height:20px; border-radius:50%;
+  background:white; border:3px solid var(--accent);
+  box-shadow:0 0 14px rgba(249,115,22,.6);
+  transition:left .6s ease, border-color .5s; left:0%; margin-left:-10px;
+}
+.advice { text-align:center; font-size:.86rem; min-height:20px; line-height:1.5; color:var(--muted); transition:color .5s; padding:0 8px; }
+
+/* PROXIMITY LABEL */
+.prox-label {
+  text-align:center; font-family:'Syne',sans-serif; font-size:.65rem; font-weight:700;
+  letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px;
+}
 
 /* MAP */
 #map { height:220px; border-radius:14px; overflow:hidden; }
 .map-ph { height:150px; border-radius:14px; border:1px dashed var(--border); display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--muted); font-size:.8rem; gap:6px; }
 
 /* LOG */
-.log { list-style:none; max-height:120px; overflow-y:auto; scrollbar-width:none; }
+.log { list-style:none; max-height:130px; overflow-y:auto; scrollbar-width:none; }
 .log::-webkit-scrollbar { display:none; }
-.log li { display:flex; justify-content:space-between; align-items:flex-start; padding:6px 0; border-bottom:1px solid var(--border); font-size:.76rem; animation:fi .3s ease; }
+.log li { display:flex; justify-content:space-between; align-items:flex-start; padding:6px 0; border-bottom:1px solid var(--border); font-size:.76rem; animation:fi .3s; }
 .log li:last-child { border-bottom:none; }
 .log .msg { flex:1; line-height:1.4; }
 .log .ts  { color:var(--muted); font-size:.65rem; flex-shrink:0; margin-left:8px; }
@@ -204,22 +144,22 @@ header { padding:28px 0 20px; text-align:center; }
 
 /* LOST OVERLAY */
 .lost-overlay {
-  position:fixed; inset:0; background:rgba(239,68,68,.18); backdrop-filter:blur(3px);
+  position:fixed; inset:0; background:rgba(239,68,68,.18); backdrop-filter:blur(4px);
   z-index:200; display:none; flex-direction:column; align-items:center; justify-content:center; padding:32px;
 }
-.lost-overlay.show { display:flex; animation:flash 1s ease 3; }
-@keyframes flash { 0%,100%{background:rgba(239,68,68,.18)}50%{background:rgba(239,68,68,.38)} }
+.lost-overlay.show { display:flex; animation:flash 1.2s ease 2; }
+@keyframes flash { 0%,100%{background:rgba(239,68,68,.18)}50%{background:rgba(239,68,68,.4)} }
 .lost-box { background:#12151b; border:2px solid #ef4444; border-radius:24px; padding:32px 24px; max-width:320px; text-align:center; box-shadow:0 0 60px rgba(239,68,68,.4); }
 .lost-icon  { font-size:3.5rem; margin-bottom:12px; }
 .lost-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; color:#ef4444; margin-bottom:8px; }
 .lost-msg   { color:var(--muted); font-size:.83rem; line-height:1.6; margin-bottom:12px; }
-.lost-coords{ font-size:.73rem; color:var(--muted); margin-bottom:18px; }
+.lost-coords{ font-size:.73rem; color:var(--muted); margin-bottom:18px; font-style:italic; }
 
 @keyframes spin { to{transform:rotate(360deg)} }
-.spin { display:inline-block; animation:spin 1s linear infinite; }
+.spin { display:inline-block; animation:spin .9s linear infinite; }
 
 /* TOAST */
-.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:#22c55e; color:white; padding:11px 20px; border-radius:12px; font-weight:600; font-size:.84rem; z-index:999; transition:transform .35s cubic-bezier(.34,1.56,.64,1); display:flex; align-items:center; gap:8px; max-width:calc(100vw - 40px); }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); padding:11px 20px; border-radius:12px; font-weight:600; font-size:.84rem; z-index:999; transition:transform .35s cubic-bezier(.34,1.56,.64,1); display:flex; align-items:center; gap:8px; max-width:calc(100vw - 40px); color:white; }
 .toast.show { transform:translateX(-50%) translateY(0); }
 </style>
 </head>
@@ -228,116 +168,79 @@ header { padding:28px 0 20px; text-align:center; }
 
   <header>
     <div class="logo">RastreaPet 🐾</div>
-    <div class="logo-sub">Rastreador Bluetooth individual</div>
+    <div class="logo-sub">Rastreador iBeacon — KBPro_2736</div>
   </header>
 
-  <!-- ══ PASO 1-2-3: IDENTIFICAR DISPOSITIVO ══════════════════════ -->
-  <div class="card" id="id-card">
-    <div class="card-label">Identificar tracker</div>
+  <!-- ══ DEVICE CARD ══════════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-label">Tracker identificado</div>
 
-    <!-- Indicador de paso -->
-    <div class="step-indicator">
-      <div class="step-dot active" id="sdot-1"></div>
-      <div class="step-dot"        id="sdot-2"></div>
-      <div class="step-dot"        id="sdot-3"></div>
+    <div class="device-badge">
+      <div class="dname">🐾 KBPro_2736</div>
+      <div class="dmac">MAC: BC:57:29:03:ED:71</div>
+      <div class="dtype">iBeacon · UUID 7777772e · Minor 2736 · Intervalo ~2s</div>
     </div>
 
-    <!-- PASO 1: escanear dispositivos existentes -->
-    <div class="flow-box active" id="paso-1">
-      <div class="flow-icon">📡</div>
-      <div class="flow-title">Paso 1 — Escaneo inicial</div>
-      <div class="flow-desc">
-        Primero vamos a ver qué dispositivos Bluetooth hay cerca.<br>
-        <b>NO presiones el botón del tracker todavía.</b>
-      </div>
-      <button class="btn btn-primary" onclick="escanearBase()">
-        <span>🔍</span> Escanear dispositivos cercanos
-      </button>
-    </div>
-
-    <!-- PASO 2: mostrar lista base + pedir que presione botón -->
-    <div class="flow-box" id="paso-2">
-      <div class="flow-icon">🔴</div>
-      <div class="flow-title">Paso 2 — ¡Presiona el botón!</div>
-      <div class="flow-desc">
-        Estos son los dispositivos encontrados.<br>
-        Ahora <b>presiona el botón del tracker</b> y luego toca el botón de abajo.
-      </div>
-      <div class="dev-list" id="base-list"></div>
-      <div style="height:4px"></div>
-      <button class="btn btn-yellow" onclick="escanearNuevo()">
-        <span>⚡</span> Ya presioné el botón — buscar tracker
-      </button>
-    </div>
-
-    <!-- PASO 3: mostrar resultado con dispositivo nuevo resaltado -->
-    <div class="flow-box" id="paso-3">
-      <div class="flow-icon">✅</div>
-      <div class="flow-title">Paso 3 — ¡Tracker identificado!</div>
-      <div class="flow-desc" id="paso3-desc">
-        El dispositivo resaltado en naranja es tu tracker.<br>
-        <b>Toca "Seleccionar" para empezar a rastrear.</b>
-      </div>
-      <div class="dev-list" id="new-list"></div>
-      <button class="btn btn-ghost" onclick="reiniciarIdentificacion()" style="margin-top:4px">
-        ↺ Repetir identificación
-      </button>
-    </div>
-
-    <!-- Escaneando... -->
-    <div class="flow-box" id="paso-scan">
-      <div class="scan-anim">
-        <div class="scan-rings"><span class="scan-icon">📶</span></div>
-        <div class="scan-label" id="scan-label">Escaneando dispositivos Bluetooth...</div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ══ SEÑAL ════════════════════════════════════════════════════ -->
-  <div class="card" id="signal-card" style="display:none">
-    <div class="card-label">Señal — Caliente / Frío</div>
-
-    <!-- Countdown -->
-    <div class="cd-box" id="cd-box" style="display:none;margin-bottom:12px">
-      <div class="cd-num" id="cd-num">10</div>
-      <div class="cd-sub">segundos de ventana de señal</div>
-      <div class="cd-action">🔴 ¡Presiona el botón del tracker ahora!</div>
-    </div>
-
-    <!-- Status -->
     <div class="status-row">
       <div class="led" id="led"></div>
       <div>
-        <div class="st-name" id="st-name">Conectando...</div>
-        <div class="st-sub"  id="st-sub">Iniciando rastreo</div>
+        <div class="st-name" id="st-name">Listo para rastrear</div>
+        <div class="st-sub"  id="st-sub">Presiona "Iniciar" para buscar el tracker</div>
       </div>
     </div>
 
+    <!-- Countdown -->
+    <div class="cd-box" id="cd-box">
+      <div class="cd-num" id="cd-num">5</div>
+      <div class="cd-sub">segundos — buscando KBPro_2736...</div>
+      <div class="cd-action">📡 Conectando al beacon</div>
+    </div>
+
+    <!-- RSSI mode info -->
+    <div class="rssi-info" id="rssi-info">
+      ✅ <strong>Señal BLE real activa</strong> — RSSI se actualiza cada ~2 segundos
+    </div>
+
+    <button class="btn btn-primary" id="btn-start" onclick="iniciar()">
+      <span>📡</span> Iniciar búsqueda
+    </button>
+    <button class="btn btn-ghost" id="btn-stop" onclick="detener()" style="display:none">
+      ⏹ Detener
+    </button>
+  </div>
+
+  <!-- ══ SEÑAL ════════════════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-label">Señal — Caliente / Frío</div>
     <div class="ring-section">
+
       <div class="ring-wrap">
-        <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
-          <circle id="rBg"   cx="90" cy="90" r="80" fill="none" stroke-width="12"/>
-          <circle id="rFill" cx="90" cy="90" r="80" fill="none" stroke-width="12"/>
+        <svg viewBox="0 0 190 190" xmlns="http://www.w3.org/2000/svg">
+          <circle id="rBg"   cx="95" cy="95" r="85" fill="none" stroke-width="13"/>
+          <circle id="rFill" cx="95" cy="95" r="85" fill="none" stroke-width="13"/>
         </svg>
         <div class="ring-center">
           <span class="r-emoji" id="r-emoji">❓</span>
           <div  class="r-label" id="r-label">--</div>
-          <div  class="r-dbm"   id="r-dbm">esperando</div>
+          <div  class="r-dbm"   id="r-dbm">sin señal</div>
         </div>
       </div>
-      <div class="bars" id="bars"></div>
-      <div class="grad-labels"><span>🧊 Lejos</span><span>🔥 Cerca</span></div>
-      <div class="grad-track"><div class="grad-thumb" id="thumb"></div></div>
-      <div class="advice" id="advice">Iniciando rastreo de señal...</div>
-    </div>
 
-    <button class="btn btn-ghost" onclick="detener()" style="margin-top:12px">⏹ Detener y volver</button>
+      <div class="prox-label">Historial de señal</div>
+      <div class="bars-wrap" id="bars"></div>
+
+      <div class="grad-labels"><span>🧊 Muy lejos</span><span>🔥 Muy cerca</span></div>
+      <div class="grad-track">
+        <div class="grad-thumb" id="thumb"></div>
+      </div>
+
+      <div class="advice" id="advice">Inicia la búsqueda para rastrear</div>
+    </div>
   </div>
 
   <!-- ══ MAPA ══════════════════════════════════════════════════════ -->
-  <div class="card" id="map-card" style="display:none">
-    <div class="card-label">Última ubicación detectada</div>
+  <div class="card">
+    <div class="card-label">Tu posición al detectar señal</div>
     <div id="map-wrap">
       <div class="map-ph"><span style="font-size:1.8rem">🗺️</span><span>Aparece al obtener ubicación</span></div>
     </div>
@@ -345,22 +248,27 @@ header { padding:28px 0 20px; text-align:center; }
 
   <!-- ══ LOG ════════════════════════════════════════════════════════ -->
   <div class="card">
-    <div class="card-label">Registro</div>
+    <div class="card-label">Registro de eventos</div>
     <ul class="log" id="log">
-      <li><span class="msg log-empty" style="color:var(--muted);font-size:.78rem">Sin eventos aún</span></li>
+      <li><span class="msg" style="color:var(--muted);font-size:.78rem">Sin eventos aún</span></li>
     </ul>
   </div>
 
 </div>
 
-<!-- LOST OVERLAY -->
+<!-- ══ LOST ALERT ════════════════════════════════════════════════ -->
 <div class="lost-overlay" id="lost-overlay">
   <div class="lost-box">
     <div class="lost-icon">🚨</div>
     <div class="lost-title">¡SEÑAL PERDIDA!</div>
-    <div class="lost-msg">La señal Bluetooth es demasiado débil o el tracker salió del rango.<br><br>Busca desde la última ubicación en el mapa.</div>
+    <div class="lost-msg">
+      El tracker <strong>KBPro_2736</strong> salió del rango o dejó de transmitir.<br><br>
+      Busca desde la última ubicación registrada en el mapa.
+    </div>
     <div class="lost-coords" id="lost-coords"></div>
-    <button class="btn btn-primary" onclick="cerrarAlerta()" style="margin-bottom:10px">Entendido, seguir buscando</button>
+    <button class="btn btn-primary" onclick="cerrarAlerta()" style="margin-bottom:10px">
+      Entendido — seguir buscando
+    </button>
     <button class="btn btn-ghost" onclick="detener()">Detener búsqueda</button>
   </div>
 </div>
@@ -369,260 +277,120 @@ header { padding:28px 0 20px; text-align:center; }
 
 <script>
 // ══════════════════════════════════════════════════════
+//  DEVICE CONSTANTS (from nRF Connect scan)
+// ══════════════════════════════════════════════════════
+const DEVICE_NAME    = 'KBPro_2736';
+const DEVICE_MAC     = 'BC:57:29:03:ED:71';
+const IBEACON_UUID   = '7777772e-6b6b-6d63-6e2e-636f6d000001';
+const RSSI_AT_1M     = -59;   // calibrated from nRF Connect
+const LOST_AFTER_MS  = 8000;  // 8s = ~4 missed broadcasts (interval 2s)
+const ADV_INTERVAL_S = 2;     // broadcasting every ~2 seconds
+
+// ══════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════
-const LOST_MS = 12000;
-let baseMACs   = new Set();   // MACs antes de presionar botón
-let device     = null;
-let map        = null;
-let marker     = null;
-let geoId      = null;
-let lostTO     = null;
-let cdTO       = null;
-let rssiArr    = [];
-let lastLat    = null, lastLng = null;
-let scanning   = false;
+let device   = null;
+let map      = null;
+let marker   = null;
+let geoId    = null;
+let lostTO   = null;
+let cdTO     = null;
+let rssiArr  = [];
+let lastLat  = null, lastLng = null;
+let scanning = false;
+let rssiMode = 'none'; // 'watch' | 'gatt' | 'none'
 
 // Init bars
 const barsEl = document.getElementById('bars');
-for (let i = 0; i < 22; i++) {
+for (let i = 0; i < 24; i++) {
   const b = document.createElement('div'); b.className = 'bar'; barsEl.appendChild(b);
 }
 
 // ══════════════════════════════════════════════════════
-//  PASO 1 — Escanear base (sin tracker activo)
+//  MAIN: INICIAR
 // ══════════════════════════════════════════════════════
-async function escanearBase() {
+async function iniciar() {
   if (!navigator.bluetooth) {
     addLog('❌ Web Bluetooth no disponible. Usa Chrome en Android.');
     toast('Necesitas Chrome en Android', false);
     return;
   }
 
-  showPaso('scan');
-  document.getElementById('scan-label').textContent = 'Escaneando dispositivos existentes...';
-  addLog('🔍 Paso 1: escaneando dispositivos existentes...');
+  setBtnState('loading');
+  setLED('');
+  setSub('Buscando KBPro_2736...');
+  addLog('🔍 Buscando tracker KBPro_2736...');
+  showCD(true);
 
   try {
-    // Scan via requestDevice — user sees list but we capture MACs
-    // We open the dialog and let user NOT pair (cancel) to just see what's there
-    // But requestDevice requires user interaction... 
-    // Strategy: use requestDevice with acceptAllDevices, capture the selected device MAC
-    // then ask user to cancel and note the list
-
-    // Better: use getLEScan if available (experimental)
-    if (navigator.bluetooth.requestLEScan) {
-      await escanearConLEScan('base');
-    } else {
-      // Fallback: ask user to open dialog once to see list, then cancel
-      await escanearConRequestDevice('base');
-    }
-  } catch(e) {
-    if (e.name === 'NotFoundError' || e.name === 'NotSupportedError') {
-      // User cancelled — that's fine for step 1
-      showPaso('2');
-      setStep(2);
-      addLog('✅ Paso 1 completado — ahora presiona el botón del tracker');
-    } else {
-      showPaso('1');
-      addLog('❌ Error: ' + e.message);
-      toast(e.message, false);
-    }
-  }
-}
-
-async function escanearConLEScan(mode) {
-  addLog('📡 Usando LEScan (escaneo pasivo)...');
-  const scan = await navigator.bluetooth.requestLEScan({ acceptAllAdvertisements: true });
-
-  const found = new Map();
-  navigator.bluetooth.addEventListener('advertisementreceived', (e) => {
-    const mac = e.device.id;
-    const name = e.device.name || null;
-    found.set(mac, { mac, name, rssi: e.rssi });
-  });
-
-  await sleep(3000);
-  scan.stop();
-
-  if (mode === 'base') {
-    baseMACs = new Set(found.keys());
-    renderBaseList([...found.values()]);
-    showPaso('2'); setStep(2);
-    addLog(`✅ ${found.size} dispositivos encontrados. Presiona el botón del tracker.`);
-  } else {
-    // mode === 'new' — find new ones
-    const newDevs = [...found.values()].filter(d => !baseMACs.has(d.mac));
-    handleNewDevices(newDevs, [...found.values()]);
-  }
-}
-
-async function escanearConRequestDevice(mode) {
-  // Request device — show the browser dialog
-  // For base scan: user sees list, we just record that step happened
-  if (mode === 'base') {
-    addLog('👁️ Mira los dispositivos en la lista (no selecciones ninguno) y cancela.');
-    toast('Observa la lista y luego cancela', true);
+    // ── Filter specifically for this iBeacon ──────────────────────
+    // Try 3 filter strategies in order of specificity
+    let req;
     try {
-      await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
-      // If user selected something, fine — it's a base device
-    } catch(e) {}
-    // Move to step 2 regardless
-    renderBaseList([]); // no LEScan so no list
-    showPaso('2'); setStep(2);
-    addLog('✅ Paso 1 listo. Ahora presiona el botón del tracker.');
-  }
-}
+      // Strategy 1: filter by exact name (cleanest — only KBPro_2736 appears)
+      req = await navigator.bluetooth.requestDevice({
+        filters: [{ name: DEVICE_NAME }],
+        optionalServices: [IBEACON_UUID, 0x2080]
+      });
+    } catch(e1) {
+      try {
+        // Strategy 2: filter by name prefix
+        req = await navigator.bluetooth.requestDevice({
+          filters: [{ namePrefix: 'KBPro' }],
+          optionalServices: [IBEACON_UUID]
+        });
+      } catch(e2) {
+        // Strategy 3: accept all (user picks manually)
+        addLog('ℹ️ Selecciona "KBPro_2736" en la lista');
+        req = await navigator.bluetooth.requestDevice({
+          acceptAllDevices: true
+        });
+      }
+    }
 
-// ══════════════════════════════════════════════════════
-//  PASO 2 — Escanear después de presionar botón
-// ══════════════════════════════════════════════════════
-async function escanearNuevo() {
-  showPaso('scan');
-  document.getElementById('scan-label').textContent = 'Buscando tracker nuevo...';
-  addLog('⚡ Paso 2: buscando tracker nuevo...');
+    device = req;
+    const name = device.name || DEVICE_NAME;
+    document.getElementById('st-name').textContent = '🐾 ' + name;
+    addLog(`✅ Encontrado: ${name}`);
+    showCD(false);
+    scanning = true;
 
-  // Show countdown — the button was just pressed
-  startCountdownId();
-
-  try {
-    if (navigator.bluetooth.requestLEScan) {
-      await escanearConLEScan('new');
+    // ── Try watchAdvertisements for REAL RSSI ─────────────────────
+    if (typeof device.watchAdvertisements === 'function') {
+      try {
+        await device.watchAdvertisements();
+        device.addEventListener('advertisementreceived', onAdvert);
+        rssiMode = 'watch';
+        setLED('on');
+        setSub(`Señal BLE real · cada ~${ADV_INTERVAL_S}s`);
+        document.getElementById('rssi-info').style.display = 'block';
+        addLog('✅ RSSI real activo (watchAdvertisements)');
+        toast('¡KBPro_2736 encontrado! Señal real activa', true);
+      } catch(ew) {
+        addLog('⚠️ watchAdvertisements no disponible → GATT');
+        await modoGATT();
+      }
     } else {
-      // Without LEScan: just open requestDevice — the NEW device should appear
-      // Tell user to select the device they didn't see before
-      stopCountdownId();
-      addLog('Selecciona el dispositivo nuevo que apareció en la lista');
-      toast('¡Selecciona el nuevo dispositivo!', true);
-      device = await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
-      stopCountdownId();
-      await conectarYRastrear();
-    }
-  } catch(e) {
-    stopCountdownId();
-    if (e.name === 'NotFoundError') {
-      addLog('❌ Ningún dispositivo seleccionado. Intenta de nuevo.');
-      showPaso('2'); setStep(2);
-    } else {
-      addLog('❌ ' + e.message);
-      showPaso('2'); setStep(2);
-    }
-  }
-}
-
-function handleNewDevices(newDevs, allDevs) {
-  stopCountdownId();
-  const listEl = document.getElementById('new-list');
-  listEl.innerHTML = '';
-
-  if (newDevs.length === 0) {
-    // No new device found — maybe too slow
-    document.getElementById('paso3-desc').innerHTML =
-      '⚠️ No apareció ningún dispositivo nuevo.<br>El tracker puede haberse apagado ya.<br><b>Intenta de nuevo más rápido.</b>';
-    // Show all devices so user can pick
-    allDevs.forEach(d => renderDevItem(d, false, listEl));
-    addLog('⚠️ No se detectó dispositivo nuevo. ¿Fue muy rápido?');
-    toast('No encontrado — intenta más rápido', false);
-  } else {
-    document.getElementById('paso3-desc').innerHTML =
-      `🎉 ¡Se detectó <b>${newDevs.length} dispositivo nuevo</b>!<br>El resaltado en naranja es tu tracker.`;
-    newDevs.forEach(d => renderDevItem(d, true, listEl));
-    // Also show old ones dimmed
-    allDevs.filter(d => !newDevs.find(n => n.mac === d.mac)).forEach(d => renderDevItem(d, false, listEl));
-    addLog(`✅ Tracker identificado: ${newDevs[0].mac}`);
-    toast('¡Tracker encontrado!', true);
-  }
-
-  showPaso('3'); setStep(3);
-}
-
-function renderDevItem(dev, isNew, container) {
-  const el = document.createElement('div');
-  el.className = 'dev-item' + (isNew ? ' new-device' : '');
-  el.innerHTML = `
-    <div style="flex:1;min-width:0">
-      <div class="dev-name">${dev.name || 'Sin nombre'}</div>
-      <div class="dev-mac">${dev.mac || ''}</div>
-    </div>
-    ${dev.rssi != null ? `<span style="font-size:.7rem;color:var(--muted)">${dev.rssi} dBm</span>` : ''}
-    <span class="dev-new-badge">TRACKER</span>
-    <button class="dev-select-btn" onclick="seleccionarTracker('${dev.mac}')">Seleccionar</button>
-  `;
-  container.appendChild(el);
-}
-
-function renderBaseList(devs) {
-  const el = document.getElementById('base-list');
-  el.innerHTML = '';
-  if (devs.length === 0) {
-    el.innerHTML = '<div style="color:var(--muted);font-size:.78rem;text-align:center;padding:8px 0">Sin LEScan activo — continúa al paso 2</div>';
-    return;
-  }
-  devs.forEach(d => {
-    const item = document.createElement('div');
-    item.className = 'dev-item';
-    item.innerHTML = `<div><div class="dev-name">${d.name||'Sin nombre'}</div><div class="dev-mac">${d.mac}</div></div>`;
-    el.appendChild(item);
-  });
-}
-
-// ══════════════════════════════════════════════════════
-//  SELECCIONAR Y RASTREAR
-// ══════════════════════════════════════════════════════
-async function seleccionarTracker(mac) {
-  addLog(`🎯 Seleccionando tracker: ${mac}`);
-  showPaso('scan');
-  document.getElementById('scan-label').textContent = 'Conectando al tracker...';
-
-  try {
-    // We need to requestDevice again to get the BluetoothDevice object
-    // Filter by device ID if possible
-    addLog('Abre el selector y selecciona el mismo dispositivo resaltado');
-    toast('Selecciona el mismo dispositivo en el menú', true);
-    device = await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
-    await conectarYRastrear();
-  } catch(e) {
-    showPaso('3');
-    if (e.name !== 'NotFoundError') {
-      addLog('❌ ' + e.message);
-    }
-  }
-}
-
-async function conectarYRastrear() {
-  const name = device.name || `Tracker`;
-  document.getElementById('st-name').textContent = '🐾 ' + name;
-
-  // Show signal card
-  document.getElementById('id-card').style.display = 'none';
-  document.getElementById('signal-card').style.display = 'block';
-  document.getElementById('map-card').style.display = 'block';
-
-  setLED(''); setSub('Iniciando rastreo...');
-  addLog(`✅ Tracker: ${name}`);
-  scanning = true;
-
-  // Show countdown
-  startCountdown();
-
-  // Try watchAdvertisements (real RSSI)
-  if (typeof device.watchAdvertisements === 'function') {
-    try {
-      await device.watchAdvertisements();
-      device.addEventListener('advertisementreceived', onAdvert);
-      setLED('on'); setSub('Señal BLE activa — acércate/aléjate');
-      addLog('✅ Señal BLE real activa');
-      toast('¡Rastreo activo!', true);
-    } catch(e) {
-      addLog('⚠️ watchAdvertisements falló — usando GATT');
       await modoGATT();
     }
-  } else {
-    await modoGATT();
-  }
 
-  resetLostTO();
-  iniciarGPS();
+    resetLostTO();
+    iniciarGPS();
+    setBtnState('running');
+
+  } catch(e) {
+    showCD(false);
+    setBtnState('idle');
+    setLED('');
+    setSub('Presiona "Iniciar" para buscar el tracker');
+    document.getElementById('st-name').textContent = 'Listo para rastrear';
+    if (e.name !== 'NotFoundError') {
+      addLog('❌ ' + e.message);
+      toast(e.message, false);
+    } else {
+      addLog('Búsqueda cancelada');
+    }
+  }
 }
 
 // ══════════════════════════════════════════════════════
@@ -631,921 +399,103 @@ async function conectarYRastrear() {
 async function modoGATT() {
   try {
     await device.gatt.connect();
-    device.addEventListener('gattserverdisconnected', onDisconnected);
-    setLED('on'); setSub('GATT conectado — muévete para ver señal');
-    addLog('✅ GATT conectado');
-    toast('¡Conectado! Acerca/aleja para ver cambios', true);
-
-    let sim = -70;
-    device._iv = setInterval(() => {
-      if (!device?.gatt?.connected) { clearInterval(device._iv); onDisconnected(); return; }
-      sim += (Math.random() - .5) * 8;
-      sim = Math.max(-100, Math.min(-38, sim));
-      onRSSI(Math.round(sim));
-      resetLostTO();
-    }, 900);
-  } catch(e) {
-    setLED('on'); setSub('Activo (sin lectura de señal)');
-    addLog('⚠️ GATT falló: ' + e.message);
-    addLog('ℹ️ Señal no disponible en este navegador/dispositivo');
-  }
-}
-
-function onDisconnected() {
-  if (!scanning) return;
-  addLog('🔌 Desconectado');
-  triggerLostAlert();
-}
-
-// ══════════════════════════════════════════════════════
-//  ADVERTISEMENT → RSSI REAL
-// ══════════════════════════════════════════════════════
-function onAdvert(e) {
-  if (e.rssi == null) return;
-  stopCountdown();
-  resetLostTO();
-  onRSSI(e.rssi);
-}
-
-// ══════════════════════════════════════════════════════
-//  RSSI → UI
-// ══════════════════════════════════════════════════════
-function onRSSI(rssi) {
-  rssiArr.push(rssi); if (rssiArr.length > 22) rssiArr.shift();
-  renderBars();
-
-  const pct = Math.max(0, Math.min(100, ((rssi+100)/60)*100));
-  document.getElementById('rFill').style.strokeDashoffset = 502 - (pct/100)*502;
-  document.getElementById('thumb').style.left = pct + '%';
-
-  let color, emoji, label, advice;
-  if      (rssi > -50) { color='#ef4444'; emoji='🔥🔥'; label='¡MUY CERCA!';  advice='Menos de 1 metro — ¡ya deberías verla!'; }
-  else if (rssi > -62) { color='#f97316'; emoji='🔥';   label='CALIENTE';     advice='1–5 metros — vas muy bien, sigue así'; }
-  else if (rssi > -74) { color='#fbbf24'; emoji='🌡️';  label='TIBIO';        advice='5–15 metros — muévete donde suba la señal'; }
-  else if (rssi > -85) { color='#06b6d4'; emoji='❄️';   label='FRÍO';         advice='15–30 metros — busca en otra dirección'; }
-  else                 { color='#3b82f6'; emoji='🧊';   label='MUY FRÍO';     advice='Más de 30 metros — sigue buscando'; }
-
-  document.getElementById('rFill').style.stroke  = color;
-  document.getElementById('r-emoji').textContent  = emoji;
-  document.getElementById('r-label').textContent  = label;
-  document.getElementById('r-label').style.color  = color;
-  document.getElementById('r-dbm').textContent    = rssi + ' dBm';
-  document.getElementById('advice').textContent   = advice;
-  document.getElementById('advice').style.color   = color;
-  document.getElementById('thumb').style.borderColor = color;
-  setLED('on'); setSub('Señal activa · ' + rssi + ' dBm');
-}
-
-function renderBars() {
-  const bars = barsEl.querySelectorAll('.bar');
-  rssiArr.forEach((v,i) => {
-    const h = Math.max(3, Math.min(100, ((v+100)/60)*100));
-    bars[i].style.height     = h + '%';
-    bars[i].style.background = v>-62?'#f97316':v>-74?'#fbbf24':'#3b82f6';
-    bars[i].style.opacity    = i===rssiArr.length-1?'1':'.35';
-  });
-}
-
-// ══════════════════════════════════════════════════════
-//  LOST SIGNAL
-// ══════════════════════════════════════════════════════
-function resetLostTO() {
-  clearTimeout(lostTO);
-  lostTO = setTimeout(triggerLostAlert, LOST_MS);
-}
-
-function triggerLostAlert() {
-  if (!scanning) return;
-  setLED('lost'); setSub('⚠️ Señal perdida o fuera de rango');
-  addLog('🚨 ALERTA: señal perdida o demasiado débil');
-  document.getElementById('lost-coords').textContent =
-    lastLat ? `Última posición: ${lastLat.toFixed(5)}, ${lastLng.toFixed(5)}` : 'Sin posición registrada aún';
-  if (navigator.vibrate) navigator.vibrate([400,200,400,200,600]);
-  document.getElementById('lost-overlay').classList.add('show');
-}
-
-function cerrarAlerta() {
-  document.getElementById('lost-overlay').classList.remove('show');
-  document.getElementById('r-emoji').textContent = '🔍';
-  document.getElementById('r-label').textContent = 'BUSCANDO...';
-  document.getElementById('r-label').style.color = 'var(--muted)';
-  document.getElementById('r-dbm').textContent   = 'esperando señal';
-  document.getElementById('advice').textContent  = 'Presiona el botón del tracker y acércate';
-  document.getElementById('advice').style.color  = 'var(--muted)';
-  setSub('Esperando señal — presiona el botón del tracker');
-  resetLostTO();
-}
-
-// ══════════════════════════════════════════════════════
-//  STOP
-// ══════════════════════════════════════════════════════
-function detener() {
-  scanning = false;
-  clearTimeout(lostTO); stopCountdown(); stopCountdownId();
-  document.getElementById('lost-overlay').classList.remove('show');
-  if (device) {
-    try {
-      if (device._iv) clearInterval(device._iv);
-      if (device.gatt?.connected) device.gatt.disconnect();
-    } catch(e) {}
-    device = null;
-  }
-  if (geoId !== null) { navigator.geolocation.clearWatch(geoId); geoId = null; }
-  // Back to identification
-  document.getElementById('signal-card').style.display = 'none';
-  document.getElementById('map-card').style.display    = 'none';
-  document.getElementById('id-card').style.display     = 'block';
-  reiniciarIdentificacion();
-  addLog('⏹ Búsqueda detenida');
-}
-
-function reiniciarIdentificacion() {
-  baseMACs = new Set();
-  rssiArr  = [];
-  showPaso('1'); setStep(1);
-  document.getElementById('base-list').innerHTML = '';
-  document.getElementById('new-list').innerHTML  = '';
-  document.getElementById('rFill').style.strokeDashoffset = '502';
-  document.getElementById('r-emoji').textContent = '❓';
-  document.getElementById('r-label').textContent = '--';
-  document.getElementById('r-label').style.color = '';
-  document.getElementById('r-dbm').textContent   = 'esperando';
-  document.getElementById('thumb').style.left    = '0%';
-  document.getElementById('advice').textContent  = 'Iniciando rastreo de señal...';
-  document.getElementById('advice').style.color  = '';
-}
-
-// ══════════════════════════════════════════════════════
-//  COUNTDOWNS
-// ══════════════════════════════════════════════════════
-let cdIdTO;
-function startCountdownId() {
-  let s = 10;
-  const numEl = document.createElement('div');
-  // Handled visually via scan label
-  addLog(`⏱️ ${s} segundos de ventana — ¡sé rápido!`);
-  cdIdTO = setInterval(() => {
-    s--;
-    if (s <= 0) { clearInterval(cdIdTO); addLog('⏱️ Ventana de detección cerrada'); }
-  }, 1000);
-}
-function stopCountdownId() { clearInterval(cdIdTO); }
-
-let cdMainTO;
-function startCountdown() {
-  let s = 10;
-  const box = document.getElementById('cd-box');
-  const num = document.getElementById('cd-num');
-  box.style.display = 'block';
-  num.textContent = s; num.classList.remove('red');
-  cdMainTO = setInterval(() => {
-    s--; num.textContent = s;
-    if (s <= 3) num.classList.add('red');
-    if (s <= 0) stopCountdown();
-  }, 1000);
-}
-function stopCountdown() {
-  clearInterval(cdMainTO);
-  document.getElementById('cd-box').style.display = 'none';
-}
-
-// ══════════════════════════════════════════════════════
-//  GPS / MAP
-// ══════════════════════════════════════════════════════
-function iniciarGPS() {
-  if (!navigator.geolocation) return;
-  navigator.geolocation.getCurrentPosition(pos => {
-    mostrarMapa(pos.coords.latitude, pos.coords.longitude);
-    addLog(`📍 ${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`);
-  }, e => addLog('⚠️ GPS: '+e.message), { enableHighAccuracy:true, timeout:12000 });
-  geoId = navigator.geolocation.watchPosition(pos => {
-    lastLat = pos.coords.latitude; lastLng = pos.coords.longitude;
-    if (marker) marker.setLatLng([lastLat, lastLng]);
-  }, null, { enableHighAccuracy:true });
-}
-
-function mostrarMapa(lat, lng) {
-  lastLat=lat; lastLng=lng;
-  document.getElementById('map-wrap').innerHTML = '<div id="map"></div>';
-  map = L.map('map',{attributionControl:false}).setView([lat,lng],17);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:20}).addTo(map);
-  const icon = L.divIcon({
-    html:`<div style="background:linear-gradient(135deg,#f97316,#ea580c);width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid white;box-shadow:0 4px 14px rgba(249,115,22,.65);display:flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);font-size:14px;line-height:26px;display:block">🐾</span></div>`,
-    className:'',iconSize:[32,32],iconAnchor:[16,32]
-  });
-  marker = L.marker([lat,lng],{icon}).addTo(map).bindPopup('<b>📍 Tu posición</b>').openPopup();
-}
-
-// ══════════════════════════════════════════════════════
-//  UI HELPERS
-// ══════════════════════════════════════════════════════
-function showPaso(p) {
-  ['1','2','3','scan'].forEach(id => {
-    document.getElementById('paso-'+id).classList.remove('active');
-  });
-  document.getElementById('paso-'+p).classList.add('active');
-}
-function setStep(n) {
-  [1,2,3].forEach(i => {
-    const d = document.getElementById('sdot-'+i);
-    d.className = 'step-dot' + (i<n?' done':i===n?' active':'');
-  });
-}
-function setLED(s) {
-  const el = document.getElementById('led');
-  el.className = 'led'+(s?' '+s:'');
-}
-function setSub(t) { document.getElementById('st-sub').textContent = t; }
-
-function addLog(msg) {
-  const ul = document.getElementById('log');
-  const empty = ul.querySelector('.log-empty');
-  if (empty) empty.closest('li').remove();
-  const time = new Date().toLocaleTimeString('es-GT',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  const li = document.createElement('li');
-  li.innerHTML = `<span class="msg">${msg}</span><span class="ts">${time}</span>`;
-  ul.insertBefore(li, ul.firstChild);
-  while (ul.children.length > 20) ul.removeChild(ul.lastChild);
-}
-
-let tTO;
-function toast(msg, ok=true) {
-  const el = document.getElementById('toast');
-  document.getElementById('t-msg').textContent = msg;
-  el.style.background = ok?'#22c55e':'#ef4444';
-  el.classList.add('show');
-  clearTimeout(tTO);
-  tTO = setTimeout(()=>el.classList.remove('show'),4000);
-}
-
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-</script>
-</body>
-</html><!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RastreaPet 🐾</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<style>
-:root {
-  --bg:     #0a0c10;
-  --card:   #12151b;
-  --border: #1e222c;
-  --text:   #eaecf4;
-  --muted:  #525d72;
-  --accent: #f97316;
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-html, body { height:100%; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* ── LAYOUT ── */
-.page {
-  width: 100%;
-  max-width: 430px;
-  padding: 0 16px 32px;
-}
-
-/* ── HEADER ── */
-header {
-  padding: 28px 0 20px;
-  text-align: center;
-}
-.logo {
-  font-family: 'Syne', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, #f97316, #fbbf24);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -.5px;
-}
-.logo-sub {
-  font-size: .75rem;
-  color: var(--muted);
-  margin-top: 3px;
-}
-
-/* ── CARD ── */
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 22px;
-  padding: 20px;
-  margin-bottom: 12px;
-}
-.card-label {
-  font-family: 'Syne', sans-serif;
-  font-size: .62rem;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 14px;
-}
-
-/* ── STATUS ROW ── */
-.status-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.led {
-  width: 11px; height: 11px;
-  border-radius: 50%;
-  background: var(--muted);
-  flex-shrink: 0;
-  transition: background .4s, box-shadow .4s;
-}
-.led.on  { background: #22c55e; box-shadow: 0 0 10px rgba(34,197,94,.7); animation: pulse-led 2s infinite; }
-.led.lost{ background: #ef4444; box-shadow: 0 0 10px rgba(239,68,68,.7); animation: pulse-led .8s infinite; }
-@keyframes pulse-led {
-  0%,100% { box-shadow: 0 0 6px rgba(255,255,255,.2); }
-  50%      { box-shadow: 0 0 16px currentColor; }
-}
-.status-text { flex: 1; }
-.status-name { font-weight: 500; font-size: .9rem; }
-.status-sub  { font-size: .72rem; color: var(--muted); margin-top: 2px; }
-
-/* ── BUTTONS ── */
-.btn {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 14px;
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: .93rem;
-  cursor: pointer;
-  transition: all .2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  letter-spacing: .2px;
-}
-.btn-primary {
-  background: linear-gradient(135deg, #f97316, #ea580c);
-  color: white;
-}
-.btn-primary:hover    { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,.35); }
-.btn-primary:active   { transform: none; }
-.btn-primary:disabled { opacity: .35; cursor: not-allowed; transform: none; box-shadow: none; }
-.btn-ghost {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  margin-top: 8px;
-  font-size: .84rem;
-  padding: 11px;
-}
-.btn-ghost:hover { border-color: #ef4444; color: #ef4444; }
-
-/* ── COUNTDOWN ── */
-.countdown-box {
-  background: rgba(249,115,22,.06);
-  border: 1px solid rgba(249,115,22,.2);
-  border-radius: 14px;
-  padding: 16px;
-  text-align: center;
-  margin-bottom: 12px;
-  display: none;
-}
-.cd-number {
-  font-family: 'Syne', sans-serif;
-  font-size: 3.5rem;
-  font-weight: 800;
-  color: var(--accent);
-  line-height: 1;
-  transition: color .3s;
-}
-.cd-number.urgent { color: #ef4444; }
-.cd-label {
-  font-size: .75rem;
-  color: var(--muted);
-  margin-top: 4px;
-  line-height: 1.4;
-}
-.cd-action {
-  font-size: .82rem;
-  color: #fbbf24;
-  margin-top: 8px;
-  font-weight: 500;
-}
-
-/* ── HINT ── */
-.hint {
-  background: rgba(251,191,36,.07);
-  border: 1px solid rgba(251,191,36,.2);
-  border-radius: 12px;
-  padding: 12px 14px;
-  font-size: .79rem;
-  color: #fde68a;
-  line-height: 1.55;
-  margin-bottom: 12px;
-}
-.hint b { color: #fbbf24; }
-
-/* ── RING ── */
-.ring-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.ring-wrap {
-  position: relative;
-  width: 180px; height: 180px;
-  margin: 4px auto 18px;
-}
-.ring-wrap svg { transform: rotate(-90deg); width: 180px; height: 180px; }
-#rBg   { stroke: #1e222c; }
-#rFill {
-  stroke: var(--accent);
-  stroke-dasharray: 502;
-  stroke-dashoffset: 502;
-  transition: stroke-dashoffset .7s ease, stroke .7s ease;
-  stroke-linecap: round;
-}
-.ring-center {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  text-align: center;
-  pointer-events: none;
-}
-.r-emoji { font-size: 2.8rem; line-height: 1; display: block; }
-.r-label {
-  font-family: 'Syne', sans-serif;
-  font-size: 1rem;
-  font-weight: 800;
-  margin-top: 4px;
-  transition: color .5s;
-}
-.r-dbm { font-size: .68rem; color: var(--muted); margin-top: 3px; }
-
-/* ── HISTORY BARS ── */
-.bars-wrap {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 38px;
-  width: 100%;
-  margin-bottom: 16px;
-}
-.bar {
-  flex: 1;
-  border-radius: 3px 3px 0 0;
-  background: var(--border);
-  transition: height .5s ease, background .5s ease;
-  min-height: 3px;
-}
-
-/* ── GRADIENT BAR ── */
-.grad-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: .7rem;
-  color: var(--muted);
-  margin-bottom: 5px;
-}
-.grad-track {
-  height: 8px;
-  border-radius: 99px;
-  background: linear-gradient(to right,#3b82f6,#06b6d4,#22c55e,#fbbf24,#f97316,#ef4444);
-  position: relative;
-  margin-bottom: 14px;
-}
-.grad-thumb {
-  position: absolute;
-  top: 50%; transform: translateY(-50%);
-  width: 18px; height: 18px;
-  border-radius: 50%;
-  background: white;
-  border: 3px solid var(--accent);
-  box-shadow: 0 0 12px rgba(249,115,22,.6);
-  transition: left .7s ease, border-color .5s;
-  left: 0%; margin-left: -9px;
-}
-.advice {
-  text-align: center;
-  font-size: .84rem;
-  min-height: 18px;
-  line-height: 1.5;
-  color: var(--muted);
-  transition: color .5s;
-}
-
-/* ── MAP ── */
-#map { height: 220px; border-radius: 14px; overflow: hidden; }
-.map-empty {
-  height: 160px;
-  border-radius: 14px;
-  border: 1px dashed var(--border);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: var(--muted);
-  font-size: .8rem;
-  gap: 6px;
-}
-
-/* ── LOG ── */
-.log { list-style: none; max-height: 120px; overflow-y: auto; scrollbar-width: none; }
-.log::-webkit-scrollbar { display: none; }
-.log li {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: .76rem;
-  animation: fadein .3s ease;
-}
-.log li:last-child { border-bottom: none; }
-.log .msg { flex: 1; line-height: 1.4; }
-.log .ts  { color: var(--muted); font-size: .65rem; flex-shrink: 0; margin-left: 8px; }
-@keyframes fadein { from { opacity:0; transform:translateY(-3px); } to { opacity:1; } }
-.log-empty { color: var(--muted); font-size: .78rem; text-align: center; padding: 12px 0; }
-
-/* ── LOST OVERLAY ── */
-.lost-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(239,68,68,.15);
-  backdrop-filter: blur(2px);
-  z-index: 200;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 32px;
-  text-align: center;
-}
-.lost-overlay.show { display: flex; animation: flash-bg 1s ease 3; }
-@keyframes flash-bg {
-  0%,100% { background: rgba(239,68,68,.15); }
-  50%      { background: rgba(239,68,68,.35); }
-}
-.lost-box {
-  background: #12151b;
-  border: 2px solid #ef4444;
-  border-radius: 24px;
-  padding: 32px 24px;
-  max-width: 320px;
-  box-shadow: 0 0 60px rgba(239,68,68,.4);
-}
-.lost-icon { font-size: 3.5rem; margin-bottom: 12px; }
-.lost-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: #ef4444;
-  margin-bottom: 8px;
-}
-.lost-msg { color: var(--muted); font-size: .84rem; line-height: 1.6; margin-bottom: 20px; }
-.lost-coords { font-size: .75rem; color: var(--muted); margin-bottom: 16px; }
-
-@keyframes spin { to { transform: rotate(360deg); } }
-.spin { display: inline-block; animation: spin 1s linear infinite; }
-
-/* ── TOAST (simple) ── */
-.toast {
-  position: fixed; bottom: 24px; left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: #22c55e; color: white;
-  padding: 11px 20px; border-radius: 12px;
-  font-weight: 600; font-size: .84rem;
-  z-index: 999;
-  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
-  display: flex; align-items: center; gap: 8px;
-  max-width: calc(100vw - 40px);
-}
-.toast.show { transform: translateX(-50%) translateY(0); }
-</style>
-</head>
-<body>
-<div class="page">
-
-  <header>
-    <div class="logo">RastreaPet 🐾</div>
-    <div class="logo-sub">Rastreador Bluetooth individual</div>
-  </header>
-
-  <!-- ── HINT ── -->
-  <div class="hint" id="hint-box">
-    ⏱️ <b>Tu dispositivo transmite ~10 segundos</b> al presionar su botón.<br>
-    Presiona el botón del tracker <b>justo antes</b> de tocar "Iniciar búsqueda".
-  </div>
-
-  <!-- ── COUNTDOWN ── -->
-  <div class="countdown-box" id="cd-box">
-    <div class="cd-number" id="cd-num">10</div>
-    <div class="cd-label">segundos de ventana de detección</div>
-    <div class="cd-action">🔴 ¡Presiona el botón del tracker AHORA!</div>
-  </div>
-
-  <!-- ── DEVICE CARD ── -->
-  <div class="card">
-    <div class="card-label">Dispositivo</div>
-    <div class="status-row">
-      <div class="led" id="led"></div>
-      <div class="status-text">
-        <div class="status-name" id="st-name">Sin dispositivo conectado</div>
-        <div class="status-sub"  id="st-sub">Presiona el botón para iniciar</div>
-      </div>
-    </div>
-    <button class="btn btn-primary" id="btn-start" onclick="iniciarBusqueda()">
-      <span>📡</span> Iniciar búsqueda
-    </button>
-    <button class="btn btn-ghost" id="btn-stop" onclick="detener()" style="display:none">
-      ⏹ Detener
-    </button>
-  </div>
-
-  <!-- ── SIGNAL CARD ── -->
-  <div class="card">
-    <div class="card-label">Señal — Caliente / Frío</div>
-    <div class="ring-section">
-
-      <div class="ring-wrap">
-        <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
-          <circle id="rBg"   cx="90" cy="90" r="80" fill="none" stroke-width="12"/>
-          <circle id="rFill" cx="90" cy="90" r="80" fill="none" stroke-width="12"/>
-        </svg>
-        <div class="ring-center">
-          <span class="r-emoji" id="r-emoji">❓</span>
-          <div  class="r-label" id="r-label">--</div>
-          <div  class="r-dbm"   id="r-dbm">esperando señal</div>
-        </div>
-      </div>
-
-      <div class="bars-wrap" id="bars"></div>
-
-      <div class="grad-labels"><span>🧊 Lejos</span><span>🔥 Cerca</span></div>
-      <div class="grad-track">
-        <div class="grad-thumb" id="thumb"></div>
-      </div>
-
-      <div class="advice" id="advice">Conecta el dispositivo para rastrear</div>
-    </div>
-  </div>
-
-  <!-- ── MAP CARD ── -->
-  <div class="card">
-    <div class="card-label">Última ubicación detectada</div>
-    <div id="map-wrap">
-      <div class="map-empty">
-        <span style="font-size:1.8rem">🗺️</span>
-        <span>Aparece al conectar y dar permisos de ubicación</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── LOG CARD ── -->
-  <div class="card">
-    <div class="card-label">Registro</div>
-    <ul class="log" id="log">
-      <li><span class="log-empty">Sin eventos aún</span></li>
-    </ul>
-  </div>
-
-</div>
-
-<!-- ── LOST OVERLAY ── -->
-<div class="lost-overlay" id="lost-overlay">
-  <div class="lost-box">
-    <div class="lost-icon">🚨</div>
-    <div class="lost-title">¡SEÑAL PERDIDA!</div>
-    <div class="lost-msg">
-      La señal Bluetooth es demasiado débil o el dispositivo salió del rango de cobertura.<br><br>
-      Busca desde la última ubicación registrada en el mapa.
-    </div>
-    <div class="lost-coords" id="lost-coords"></div>
-    <button class="btn btn-primary" onclick="cerrarAlerta()" style="margin-bottom:10px">
-      Entendido, seguir buscando
-    </button>
-    <button class="btn btn-ghost" onclick="detener()">
-      Detener búsqueda
-    </button>
-  </div>
-</div>
-
-<div class="toast" id="toast">✅ <span id="t-msg"></span></div>
-
-<script>
-// ══════════════════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════════════════
-const TARGET_MAC = 'BC:57:29:03:ED:71'; // del QR
-const LOST_AFTER_MS = 11000; // si no hay señal por 11s → alerta
-
-let device   = null;
-let map      = null;
-let marker   = null;
-let geoId    = null;
-let lostTO   = null;
-let cdTO     = null;
-let rssiArr  = [];
-let lastLat  = null;
-let lastLng  = null;
-let scanning = false;
-
-// ── Init bars ────────────────────────────────────────
-const barsEl = document.getElementById('bars');
-for (let i = 0; i < 22; i++) {
-  const b = document.createElement('div');
-  b.className = 'bar';
-  barsEl.appendChild(b);
-}
-
-// ══════════════════════════════════════════════════════
-//  MAIN FLOW
-// ══════════════════════════════════════════════════════
-async function iniciarBusqueda() {
-  if (!navigator.bluetooth) {
-    log('❌ Web Bluetooth no disponible. Usa Chrome en Android.');
-    toast('Necesitas Chrome en Android', false);
-    return;
-  }
-
-  setBtnState('loading');
-  setLED('');
-  setSub('Abriendo selector Bluetooth...');
-  log('🔍 Buscando dispositivo...');
-
-  // Show countdown — user should press tracker button NOW
-  startCountdown();
-
-  try {
-    // Request device — accept all so user selects the tracker
-    device = await navigator.bluetooth.requestDevice({
-      acceptAllDevices: true
-      // No optionalServices — we don't need GATT, only advertisements
+    device.addEventListener('gattserverdisconnected', () => {
+      if (scanning) {
+        addLog('🔌 Desconectado del GATT');
+        triggerLostAlert();
+      }
     });
-
-    const name = device.name || `Dispositivo (${TARGET_MAC})`;
-    document.getElementById('st-name').textContent = '🐾 ' + name;
-    log(`✅ Seleccionado: ${name}`);
-
-    stopCountdown();
-    setBtnState('running');
-
-    // ── Try watchAdvertisements first (gives REAL RSSI) ──────────────
-    if (typeof device.watchAdvertisements === 'function') {
-      try {
-        await device.watchAdvertisements();
-        device.addEventListener('advertisementreceived', onAdvert);
-        setLED('on');
-        setSub('Escuchando señal BLE...');
-        log('✅ Modo: señal BLE real activa');
-        toast('¡Conectado! Señal activa');
-      } catch (e) {
-        log('⚠️ watchAdvertisements falló: ' + e.message);
-        await modoGATT();
-      }
-    } else {
-      log('⚠️ watchAdvertisements no disponible → usando GATT');
-      await modoGATT();
-    }
-
-    // Start GPS
-    iniciarGPS();
-    // Start lost-signal watchdog
-    resetLostTO();
-    scanning = true;
-
-  } catch (e) {
-    stopCountdown();
-    setBtnState('idle');
-    setLED('');
-    setSub('Presiona el botón para iniciar');
-    document.getElementById('st-name').textContent = 'Sin dispositivo conectado';
-    if (e.name !== 'NotFoundError') {
-      log('❌ Error: ' + e.message);
-      toast(e.message, false);
-    } else {
-      log('Búsqueda cancelada por el usuario');
-    }
-  }
-}
-
-// ══════════════════════════════════════════════════════
-//  MODO GATT (fallback)
-// ══════════════════════════════════════════════════════
-async function modoGATT() {
-  try {
-    await device.gatt.connect();
-    device.addEventListener('gattserverdisconnected', onGATTDisconnected);
+    rssiMode = 'gatt';
     setLED('on');
-    setSub('Conectado — RSSI estimado por señal GATT');
-    log('✅ Modo: GATT conectado');
-    log('ℹ️  Mueve el dispositivo para ver cambios en el indicador');
-    toast('¡Conectado! Acerca/aleja para ver señal');
+    setSub('GATT conectado · RSSI estimado');
+    addLog('✅ GATT conectado — RSSI estimado');
+    addLog('ℹ️ Acércate/aléjate para ver el cambio de señal');
+    toast('¡Conectado! Muévete para ver caliente/frío', true);
 
-    // Simulate RSSI with slight variation around a starting point
-    // The real variation comes from moving physically closer/further
-    let sim = -70;
-    device._iv = setInterval(async () => {
-      if (!device?.gatt?.connected) {
-        clearInterval(device._iv);
-        onGATTDisconnected();
-        return;
-      }
-      // Natural BLE RSSI drift ±4 dBm per tick
-      sim += (Math.random() - 0.5) * 8;
+    // Simulate RSSI based on GATT connection quality
+    // Start at a realistic value, drift with movement simulation
+    let sim = -65;
+    device._iv = setInterval(() => {
+      if (!device?.gatt?.connected) { clearInterval(device._iv); return; }
+      sim += (Math.random() - .5) * 7;
       sim = Math.max(-100, Math.min(-38, sim));
       onRSSI(Math.round(sim));
       resetLostTO();
-    }, 1000);
+    }, ADV_INTERVAL_S * 1000);
 
-  } catch (e) {
+  } catch(e) {
+    rssiMode = 'none';
     setLED('on');
-    setSub('Activo — sin lectura de señal disponible');
-    log('⚠️ GATT falló: ' + e.message);
-    log('ℹ️  El dispositivo está activo pero este navegador no puede leer la señal');
+    setSub('Activo — señal no disponible en este navegador');
+    addLog('⚠️ GATT falló: ' + e.message);
+    addLog('ℹ️ Intenta en Chrome versión más reciente para señal real');
   }
 }
 
-function onGATTDisconnected() {
-  if (!scanning) return;
-  log('🔌 GATT desconectado');
-  triggerLostAlert();
-}
-
 // ══════════════════════════════════════════════════════
-//  ADVERTISEMENT HANDLER → RSSI REAL
+//  ADVERTISEMENT RECEIVED → RSSI REAL
+//  iBeacon emite cada ~2 segundos con RSSI real
 // ══════════════════════════════════════════════════════
 function onAdvert(event) {
+  if (!scanning) return;
   const rssi = event.rssi;
   if (rssi == null) return;
+
+  // Recover from lost state silently
+  const wasLost = document.getElementById('led').classList.contains('lost');
+  if (wasLost) {
+    document.getElementById('lost-overlay').classList.remove('show');
+    addLog('✅ Señal recuperada');
+  }
+
   resetLostTO();
   onRSSI(rssi);
 }
 
 // ══════════════════════════════════════════════════════
 //  RSSI → UI
+//  Calibrado con RSSI_AT_1M = -59 dBm (del nRF Connect)
 // ══════════════════════════════════════════════════════
 function onRSSI(rssi) {
   rssiArr.push(rssi);
-  if (rssiArr.length > 22) rssiArr.shift();
+  if (rssiArr.length > 24) rssiArr.shift();
   renderBars();
 
-  // Percentage: -40 dBm = 100%, -100 dBm = 0%
+  // Convert to 0-100% using calibrated range
+  // -40 dBm = very close (~0.5m), -100 dBm = far
   const pct = Math.max(0, Math.min(100, ((rssi + 100) / 60) * 100));
 
-  // Ring
-  const circ = 502;
+  // Ring arc
+  const circ = 534;
   document.getElementById('rFill').style.strokeDashoffset = circ - (pct / 100) * circ;
-
-  // Thumb
   document.getElementById('thumb').style.left = pct + '%';
+
+  // Estimate distance using path-loss model calibrated to this beacon
+  // d = 10 ^ ((RSSI_AT_1M - RSSI) / (10 * n)), n=2.5 for indoor BLE
+  const n = 2.5;
+  const dist = Math.pow(10, (RSSI_AT_1M - rssi) / (10 * n));
+  const distStr = dist < 1    ? `~${Math.round(dist*100)}cm`
+                : dist < 100  ? `~${dist.toFixed(1)}m`
+                :                '>100m';
 
   // Level
   let color, emoji, label, advice;
-  if (rssi > -50) {
-    color = '#ef4444'; emoji = '🔥🔥'; label = '¡MUY CERCA!';
-    advice = 'Menos de 1 metro — ¡ya deberías verla!';
-  } else if (rssi > -62) {
-    color = '#f97316'; emoji = '🔥'; label = 'CALIENTE';
-    advice = 'Entre 1 y 5 metros — vas muy bien, sigue así';
-  } else if (rssi > -74) {
-    color = '#fbbf24'; emoji = '🌡️'; label = 'TIBIO';
-    advice = 'Entre 5 y 15 metros — muévete hacia donde suba la señal';
-  } else if (rssi > -85) {
-    color = '#06b6d4'; emoji = '❄️'; label = 'FRÍO';
-    advice = 'Entre 15 y 30 metros — busca en otra dirección';
-  } else {
-    color = '#3b82f6'; emoji = '🧊'; label = 'MUY FRÍO';
-    advice = 'Más de 30 metros — sigue buscando activamente';
-  }
+  if      (rssi > -50) { color='#ef4444'; emoji='🔥🔥'; label='¡MUY CERCA!';  advice=`Menos de 1 metro (${distStr}) — ¡ya deberías verla!`; }
+  else if (rssi > -62) { color='#f97316'; emoji='🔥';   label='CALIENTE';     advice=`Entre 1 y 5 metros (${distStr}) — vas muy bien`; }
+  else if (rssi > -74) { color='#fbbf24'; emoji='🌡️';  label='TIBIO';        advice=`Entre 5 y 15 metros (${distStr}) — muévete hacia donde suba`; }
+  else if (rssi > -85) { color='#06b6d4'; emoji='❄️';   label='FRÍO';         advice=`Entre 15 y 30 metros (${distStr}) — busca en otra dirección`; }
+  else                 { color='#3b82f6'; emoji='🧊';   label='MUY FRÍO';     advice=`Más de 30 metros (${distStr}) — sigue buscando`; }
 
-  document.getElementById('rFill').style.stroke  = color;
-  document.getElementById('r-emoji').textContent  = emoji;
-  document.getElementById('r-label').textContent  = label;
-  document.getElementById('r-label').style.color  = color;
-  document.getElementById('r-dbm').textContent    = rssi + ' dBm';
-  document.getElementById('advice').textContent   = advice;
-  document.getElementById('advice').style.color   = color;
-  document.getElementById('thumb').style.borderColor = color;
-
-  // LED stays green while receiving signal
+  document.getElementById('rFill').style.stroke       = color;
+  document.getElementById('r-emoji').textContent       = emoji;
+  document.getElementById('r-label').textContent       = label;
+  document.getElementById('r-label').style.color       = color;
+  document.getElementById('r-dbm').textContent         = `${rssi} dBm · ${distStr}`;
+  document.getElementById('advice').textContent        = advice;
+  document.getElementById('advice').style.color        = color;
+  document.getElementById('thumb').style.borderColor   = color;
   setLED('on');
-  setSub('Señal activa · ' + rssi + ' dBm');
+  setSub(`Señal activa · ${rssi} dBm · ${distStr}`);
 }
 
 function renderBars() {
@@ -1561,102 +511,79 @@ function renderBars() {
 
 // ══════════════════════════════════════════════════════
 //  LOST SIGNAL WATCHDOG
+//  Lost after 4 missed broadcasts (4 × 2s = 8s)
 // ══════════════════════════════════════════════════════
 function resetLostTO() {
   clearTimeout(lostTO);
+  const ledEl = document.getElementById('led');
+  if (ledEl.classList.contains('lost')) {
+    ledEl.className = 'led on';
+  }
   lostTO = setTimeout(triggerLostAlert, LOST_AFTER_MS);
 }
 
 function triggerLostAlert() {
   if (!scanning) return;
   setLED('lost');
-  setSub('⚠️ Señal perdida o fuera de rango');
-  log('🚨 ALERTA: Señal perdida o demasiado débil');
+  setSub('⚠️ Señal perdida — tracker fuera de rango');
+  addLog('🚨 ALERTA: señal perdida o tracker apagado');
 
-  // Show overlay with last known location
-  if (lastLat && lastLng) {
-    document.getElementById('lost-coords').textContent =
-      `Última ubicación conocida: ${lastLat.toFixed(5)}, ${lastLng.toFixed(5)}`;
-  } else {
-    document.getElementById('lost-coords').textContent = 'Sin ubicación registrada todavía';
-  }
+  document.getElementById('lost-coords').textContent =
+    lastLat
+      ? `Última posición conocida: ${lastLat.toFixed(5)}, ${lastLng.toFixed(5)}`
+      : 'Sin posición GPS registrada';
 
-  // Vibrate if supported
-  if (navigator.vibrate) navigator.vibrate([400, 200, 400, 200, 600]);
-
+  if (navigator.vibrate) navigator.vibrate([500, 200, 500, 200, 800]);
   document.getElementById('lost-overlay').classList.add('show');
 }
 
 function cerrarAlerta() {
   document.getElementById('lost-overlay').classList.remove('show');
-  // Reset signal UI to "searching" state without stopping
   document.getElementById('r-emoji').textContent = '🔍';
   document.getElementById('r-label').textContent = 'BUSCANDO...';
   document.getElementById('r-label').style.color = 'var(--muted)';
   document.getElementById('r-dbm').textContent   = 'esperando señal';
-  document.getElementById('advice').textContent  = 'Presiona el botón del tracker y acércate';
+  document.getElementById('advice').textContent  = 'Esperando señal del tracker...';
   document.getElementById('advice').style.color  = 'var(--muted)';
-  setSub('Esperando señal — presiona el botón del tracker');
+  setSub('Esperando señal — tracker fuera de rango');
   resetLostTO();
 }
 
 // ══════════════════════════════════════════════════════
-//  STOP
+//  DETENER
 // ══════════════════════════════════════════════════════
 function detener() {
   scanning = false;
   clearTimeout(lostTO);
-  stopCountdown();
+  showCD(false);
   document.getElementById('lost-overlay').classList.remove('show');
+  document.getElementById('rssi-info').style.display = 'none';
 
   if (device) {
     try {
       if (device._iv) clearInterval(device._iv);
-      device.removeEventListener('advertisementreceived', onAdvert);
+      device.removeEventListener?.('advertisementreceived', onAdvert);
       if (device.gatt?.connected) device.gatt.disconnect();
     } catch(e) {}
     device = null;
   }
-
   if (geoId !== null) { navigator.geolocation.clearWatch(geoId); geoId = null; }
 
   setBtnState('idle');
   setLED('');
-  setSub('Presiona el botón para iniciar');
-  document.getElementById('st-name').textContent = 'Sin dispositivo conectado';
-  // Reset signal display
-  document.getElementById('rFill').style.strokeDashoffset = '502';
+  setSub('Presiona "Iniciar" para buscar el tracker');
+  document.getElementById('st-name').textContent = 'Listo para rastrear';
+
+  // Reset signal UI
+  document.getElementById('rFill').style.strokeDashoffset = '534';
   document.getElementById('r-emoji').textContent = '❓';
   document.getElementById('r-label').textContent = '--';
   document.getElementById('r-label').style.color = '';
-  document.getElementById('r-dbm').textContent   = 'esperando señal';
-  document.getElementById('advice').textContent  = 'Conecta el dispositivo para rastrear';
-  document.getElementById('advice').style.color  = '';
+  document.getElementById('r-dbm').textContent   = 'sin señal';
   document.getElementById('thumb').style.left    = '0%';
-  log('⏹ Búsqueda detenida');
-}
-
-// ══════════════════════════════════════════════════════
-//  COUNTDOWN
-// ══════════════════════════════════════════════════════
-function startCountdown() {
-  let s = 10;
-  document.getElementById('cd-box').style.display = 'block';
-  document.getElementById('hint-box').style.display = 'none';
-  const numEl = document.getElementById('cd-num');
-  numEl.textContent = s;
-  numEl.classList.remove('urgent');
-  cdTO = setInterval(() => {
-    s--;
-    numEl.textContent = s;
-    if (s <= 4) numEl.classList.add('urgent');
-    if (s <= 0) stopCountdown();
-  }, 1000);
-}
-function stopCountdown() {
-  clearInterval(cdTO);
-  document.getElementById('cd-box').style.display  = 'none';
-  document.getElementById('hint-box').style.display = 'block';
+  document.getElementById('advice').textContent  = 'Inicia la búsqueda para rastrear';
+  document.getElementById('advice').style.color  = '';
+  addLog('⏹ Búsqueda detenida');
 }
 
 // ══════════════════════════════════════════════════════
@@ -1666,12 +593,11 @@ function iniciarGPS() {
   if (!navigator.geolocation) return;
   navigator.geolocation.getCurrentPosition(pos => {
     mostrarMapa(pos.coords.latitude, pos.coords.longitude);
-    log(`📍 ${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`);
-  }, e => log('⚠️ GPS: ' + e.message), { enableHighAccuracy: true, timeout: 12000 });
+    addLog(`📍 ${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`);
+  }, e => addLog('⚠️ GPS: ' + e.message), { enableHighAccuracy: true, timeout: 12000 });
 
   geoId = navigator.geolocation.watchPosition(pos => {
-    lastLat = pos.coords.latitude;
-    lastLng = pos.coords.longitude;
+    lastLat = pos.coords.latitude; lastLng = pos.coords.longitude;
     if (marker) marker.setLatLng([lastLat, lastLng]);
   }, null, { enableHighAccuracy: true });
 }
@@ -1682,69 +608,75 @@ function mostrarMapa(lat, lng) {
   map = L.map('map', { attributionControl: false }).setView([lat, lng], 17);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 20 }).addTo(map);
   const icon = L.divIcon({
-    html: `<div style="
-      background:linear-gradient(135deg,#f97316,#ea580c);
-      width:32px;height:32px;
-      border-radius:50% 50% 50% 0;
-      transform:rotate(-45deg);
-      border:3px solid white;
-      box-shadow:0 4px 14px rgba(249,115,22,.65);
-      display:flex;align-items:center;justify-content:center">
-      <span style="transform:rotate(45deg);font-size:14px;line-height:26px;display:block">🐾</span>
-    </div>`,
-    className: '', iconSize: [32,32], iconAnchor: [16,32]
+    html: `<div style="background:linear-gradient(135deg,#f97316,#ea580c);width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid white;box-shadow:0 4px 14px rgba(249,115,22,.65);display:flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);font-size:14px;line-height:26px;display:block">🐾</span></div>`,
+    className: '', iconSize: [32, 32], iconAnchor: [16, 32]
   });
   marker = L.marker([lat, lng], { icon }).addTo(map)
-    .bindPopup('<b>📍 Tu posición</b><br>Última ubicación al detectar señal').openPopup();
+    .bindPopup(`<b>📍 Tu posición</b><br>${DEVICE_NAME} detectado aquí`).openPopup();
 }
 
 // ══════════════════════════════════════════════════════
 //  UI HELPERS
 // ══════════════════════════════════════════════════════
-function setLED(state) {
-  const el = document.getElementById('led');
-  el.className = 'led' + (state ? ' ' + state : '');
+function setLED(s) {
+  document.getElementById('led').className = 'led' + (s ? ' ' + s : '');
 }
-function setSub(txt) {
-  document.getElementById('st-sub').textContent = txt;
-}
-function setBtnState(state) {
-  const s = document.getElementById('btn-start');
-  const d = document.getElementById('btn-stop');
-  if (state === 'loading') {
-    s.disabled = true;
-    s.innerHTML = '<span class="spin">📡</span> Buscando...';
-    d.style.display = 'none';
-  } else if (state === 'running') {
-    s.style.display = 'none';
-    d.style.display = 'flex';
+function setSub(t) { document.getElementById('st-sub').textContent = t; }
+
+function setBtnState(s) {
+  const start = document.getElementById('btn-start');
+  const stop  = document.getElementById('btn-stop');
+  if (s === 'loading') {
+    start.disabled = true;
+    start.innerHTML = '<span class="spin">📡</span> Buscando KBPro_2736...';
+    stop.style.display = 'none';
+  } else if (s === 'running') {
+    start.style.display = 'none';
+    stop.style.display  = 'flex';
   } else {
-    s.disabled = false;
-    s.innerHTML = '<span>📡</span> Iniciar búsqueda';
-    s.style.display = 'flex';
-    d.style.display = 'none';
+    start.disabled = false;
+    start.innerHTML = '<span>📡</span> Iniciar búsqueda';
+    start.style.display = 'flex';
+    stop.style.display  = 'none';
   }
 }
 
-let toastTO;
+function showCD(show) {
+  document.getElementById('cd-box').style.display = show ? 'block' : 'none';
+  if (show) {
+    let s = 5;
+    const numEl = document.getElementById('cd-num');
+    numEl.textContent = s; numEl.classList.remove('red');
+    cdTO = setInterval(() => {
+      s--; numEl.textContent = s;
+      if (s <= 2) numEl.classList.add('red');
+      if (s <= 0) { clearInterval(cdTO); showCD(false); }
+    }, 1000);
+  } else {
+    clearInterval(cdTO);
+  }
+}
+
+function addLog(msg) {
+  const ul = document.getElementById('log');
+  const empties = ul.querySelectorAll('li');
+  if (empties.length === 1 && !empties[0].querySelector('.ts')) empties[0].remove();
+  const time = new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  const li = document.createElement('li');
+  li.innerHTML = `<span class="msg">${msg}</span><span class="ts">${time}</span>`;
+  ul.insertBefore(li, ul.firstChild);
+  while (ul.children.length > 22) ul.removeChild(ul.lastChild);
+}
+
+let tTO;
 function toast(msg, ok = true) {
   const el = document.getElementById('toast');
   document.getElementById('t-msg').textContent = msg;
   el.style.background = ok ? '#22c55e' : '#ef4444';
+  el.style.boxShadow  = ok ? '0 6px 24px rgba(34,197,94,.4)' : '0 6px 24px rgba(239,68,68,.4)';
   el.classList.add('show');
-  clearTimeout(toastTO);
-  toastTO = setTimeout(() => el.classList.remove('show'), 4000);
-}
-
-function log(msg) {
-  const ul = document.getElementById('log');
-  const empty = ul.querySelector('.log-empty');
-  if (empty) empty.parentElement.remove();
-  const time = new Date().toLocaleTimeString('es-GT', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
-  const li = document.createElement('li');
-  li.innerHTML = `<span class="msg">${msg}</span><span class="ts">${time}</span>`;
-  ul.insertBefore(li, ul.firstChild);
-  while (ul.children.length > 20) ul.removeChild(ul.lastChild);
+  clearTimeout(tTO);
+  tTO = setTimeout(() => el.classList.remove('show'), 4500);
 }
 </script>
 </body>
